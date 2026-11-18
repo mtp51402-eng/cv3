@@ -1,676 +1,1433 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ml">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#07181c">
-<meta name="mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-title" content="CV അറബി">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" href="icon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="icon-192.png">
-<title>CV – അറബി പഠന ഗെയിം</title>
-<link href="https://fonts.googleapis.com/css2?family=Noto+Naskh+Arabic:wght@500;700&family=Noto+Sans+Malayalam:wght@400;600;800&display=swap" rel="stylesheet">
-<style>
-:root{--bg:#07181c;--gold:#ffd166;--gold2:#f4a300;--glass:rgba(255,255,255,.07);--line:rgba(255,255,255,.13);--green:#2ecc71;--red:#ff5a5f;--tx:#f5fbfa;--mut:#9cc3bf;--g2:#17a398}
-*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-html,body{margin:0;min-height:100%;background:var(--bg);color:var(--tx);font-family:"Noto Sans Malayalam",system-ui,sans-serif;user-select:none;-webkit-user-select:none;-webkit-font-smoothing:antialiased}
-body::before{content:"";position:fixed;inset:0;z-index:-1;transform:translateZ(0);background:radial-gradient(800px 480px at 8% -8%,#0f7a7b 0,transparent 62%),radial-gradient(640px 460px at 108% 6%,#4b34d6 0,transparent 58%),linear-gradient(#07181c,#0a2227)}
-button{touch-action:manipulation}
-[hidden]{display:none!important}
-.screen{display:none;max-width:560px;margin:0 auto;padding:14px 14px 48px}
-.screen.on{display:block;animation:fade .25s}
-@keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
-.top{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:10px}
-.hero{display:flex;align-items:center;justify-content:space-between;padding:6px 2px 12px}
-.logo{font-size:42px;font-weight:800;letter-spacing:3px;line-height:1;background:linear-gradient(135deg,#fff3b0,#ffd166 50%,#f4a300);-webkit-background-clip:text;background-clip:text;color:transparent}
-.sub{font-size:22px;color:var(--mut);margin-top:2px}
-.prog{display:flex;align-items:center;gap:10px;margin-bottom:14px}
-.pbar{flex:1;height:8px;border-radius:8px;background:rgba(255,255,255,.1);overflow:hidden}
-.pbar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--g2),var(--gold));border-radius:8px;transition:width .5s}
-.prog span{font-size:12px;color:var(--mut);white-space:nowrap}
-.ico{background:var(--glass);border:1px solid var(--line);color:var(--tx);width:46px;height:46px;border-radius:15px;font-size:22px;cursor:pointer}
-.card{background:var(--glass);border:1px solid var(--line);border-radius:22px;padding:16px;margin-bottom:14px}
-label{display:block;font-size:13px;color:var(--mut);margin:8px 0 4px}
-.pw{position:relative}.pw input{padding-right:52px}
-.eye{position:absolute;right:6px;top:50%;transform:translateY(-50%);width:40px;height:40px;border:0;border-radius:10px;background:transparent;color:var(--tx);font-size:20px;cursor:pointer}
-input[type=text],input[type=password],input:not([type]){width:100%;padding:14px;border-radius:14px;border:1.5px solid var(--line);background:rgba(255,255,255,.06);color:var(--tx);font-size:17px;font-family:inherit;user-select:text;-webkit-user-select:text}
-input:focus{outline:0;border-color:var(--gold)}
-.btn{display:block;width:100%;padding:15px;border-radius:16px;border:1px solid var(--line);background:var(--glass);color:var(--tx);font-size:17px;font-weight:600;font-family:inherit;margin-top:10px;cursor:pointer;transition:transform .08s}
-.btn:active{transform:scale(.97)}
-.btn.gold{background:linear-gradient(135deg,var(--gold),var(--gold2));color:#3a2a00;border:0;box-shadow:0 6px 18px rgba(244,163,0,.25)}
-.btn.ghost{background:transparent;border:1.5px solid rgba(255,255,255,.25)}
-.btn.sm{display:inline-block;width:auto;padding:8px 16px;font-size:14px;margin-top:10px;border-radius:12px}
-.lvgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px}
-.lvgrid:empty{display:none}
-.lv{display:flex;align-items:center;gap:10px;text-align:left;padding:10px 12px;min-height:64px;border-radius:18px;border:1px solid var(--line);background:var(--glass);color:var(--tx);font-family:inherit;cursor:pointer}
-.lv:last-child:nth-child(odd){grid-column:1/-1}
-.lv b{flex:none;width:38px;height:38px;border-radius:12px;display:grid;place-items:center;background:rgba(255,255,255,.1);font-size:17px}
-.lv span{font-size:14px;font-weight:600;line-height:1.3}
-.lv.cur{background:linear-gradient(135deg,rgba(255,209,102,.22),rgba(244,163,0,.08));border-color:rgba(255,209,102,.55)}
-.lv.cur b{background:linear-gradient(135deg,var(--gold),var(--gold2));color:#3a2a00}
-.lv.dn b{background:rgba(46,204,113,.28);color:#9df3c1}
-.lv.op b{background:rgba(125,150,255,.28)}
-.lv.lock{opacity:.4;cursor:not-allowed}
-#lvt{font-weight:800;font-size:18px}
-#tm{font-size:14px;color:var(--gold);min-width:60px;text-align:center}
-.dots{display:flex;gap:8px;justify-content:center;margin:4px 0}
-.dots i{width:16px;height:16px;border-radius:50%;background:rgba(255,255,255,.15);transition:background .25s}
-.dots i.on{background:var(--green);box-shadow:0 0 10px var(--green)}
-.cnt{text-align:center;font-size:12px;color:var(--mut);margin-bottom:10px}
-#prompt{text-align:center}
-.ml{font-size:19px;font-weight:600;line-height:1.5}
-.ar{font-family:"Noto Naskh Arabic","Amiri","Traditional Arabic",serif}
-.big{font-size:60px;line-height:1.6;color:var(--gold)}
-.tiles{display:flex;gap:10px;justify-content:center;direction:rtl;flex-wrap:wrap}
-.tile{background:rgba(255,255,255,.07);border-radius:14px;padding:4px 16px;font-size:44px;line-height:1.7;border:2px solid transparent}
-.tile.hl{border-color:var(--gold);background:rgba(255,209,102,.18)}
-.opts{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-.opts.row{display:flex;flex-direction:row-reverse;flex-wrap:wrap;justify-content:center}
-.opt{border:1.5px solid var(--line);background:linear-gradient(160deg,rgba(255,255,255,.13),rgba(255,255,255,.05));color:var(--tx);border-radius:20px;min-height:78px;padding:6px 10px;font-size:20px;cursor:pointer;transition:background .12s,transform .08s;font-family:inherit}
-.opt.ar{font-family:"Noto Naskh Arabic","Amiri",serif;font-size:42px;line-height:1.7}
-.opt:active{transform:scale(.96)}
-.opt.ok,.tile.ok,.gap.ok{background:var(--green)!important;color:#fff;border-color:#9df3c1;animation:pop .3s}
-.opt.bad,.tile.bad,.gap.bad{background:var(--red)!important;color:#fff;border-color:#ffb3b5;animation:shake .3s}
-.opt.sel,.tile.sel{border-color:var(--gold);background:rgba(255,209,102,.25)}
-@keyframes pop{50%{transform:scale(1.07)}}
-@keyframes shake{25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
-.multi{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
-.multi .opt{min-height:70px;font-size:38px;padding:0}
-.gaprow{display:flex;direction:rtl;justify-content:center;align-items:center;flex-wrap:wrap;gap:4px;margin-top:6px}
-.gap{width:38px;height:70px;border-radius:12px;border:2px dashed var(--gold);background:rgba(255,209,102,.1);color:#fff;font-size:34px;cursor:pointer;display:flex;align-items:center;justify-content:center}
-.gaprow .tile{font-size:40px;padding:2px 8px}
-@media(max-width:430px){.gaprow .tile{font-size:32px;padding:2px 4px}.gap{width:26px;height:58px}}
-.acts{display:flex;gap:10px;margin-top:6px}
-.acts .btn{margin-top:8px}
-.dwrap{position:relative;margin:6px auto;border-radius:20px;background:rgba(0,0,0,.3);border:2px solid var(--line);overflow:hidden;touch-action:none}
-.dwrap canvas{position:absolute;left:0;top:0;touch-action:none}
-.dwrap.ok{border-color:var(--green)}
-.dwrap.bad{border-color:var(--red)}
-.mask{position:fixed;inset:0;background:rgba(0,0,0,.65);display:none;align-items:center;justify-content:center;z-index:9;padding:18px}
-.mask.on{display:flex}
-.box{background:#0f3036;border:1px solid var(--line);border-radius:24px;padding:22px;width:100%;max-width:420px;text-align:center;max-height:90vh;overflow:auto;animation:pop .35s}
-.box h2{margin:0 0 10px}
-.row3{display:flex;align-items:center;gap:10px;background:rgba(255,255,255,.07);border-radius:14px;padding:10px 12px;margin:8px 0;text-align:left}
-.row3 b{font-size:26px}.row3 span{flex:1;font-weight:600}.row3 em{font-style:normal;color:var(--gold)}
-#toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:#000d;padding:10px 16px;border-radius:12px;font-size:14px;display:none;z-index:40;max-width:90%;text-align:center}
-#cert{width:100%;border-radius:12px;background:#fff;box-shadow:0 8px 24px #0006}
-.chk{display:flex;align-items:center;gap:8px;margin:12px 0;font-size:16px}
-.chk input{width:22px;height:22px}
-#mum{position:fixed;inset:0;z-index:30;display:none;flex-direction:column;align-items:center;justify-content:center;background:rgba(4,14,18,.84)}
-#mum.on{display:flex}
-#mum .mt{font-size:min(30vw,150px);line-height:1.6;background:linear-gradient(180deg,#fff3b0,#ffd166 45%,#f4a300);-webkit-background-clip:text;background-clip:text;color:transparent;animation:mpop .7s cubic-bezier(.2,1.4,.4,1) both}
-#mum .ms{font-size:20px;font-weight:700;color:var(--tx);animation:fade .6s .35s both}
-#fx{position:fixed;inset:0;width:100%;height:100%;z-index:31;pointer-events:none}
-@keyframes mpop{from{transform:scale(.2) rotate(-8deg);opacity:0}to{transform:none;opacity:1}}
-</style>
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="അറബി അക്ഷരം">
+<meta name="theme-color" content="#E9F3FF">
+<style>:root{color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}[hidden]{display:none!important}</style>
 </head>
 <body>
+<style>
+html.locked body > *:not(#gate):not(script):not(style):not(title):not(meta):not(link) { display: none !important; }
+#gate { display: none; }
+html.locked #gate { position: fixed; inset: 0; z-index: 2147483000; display: flex; align-items: center; justify-content: center; padding: 24px; background: #E9F3FF; color: #1B2A4A; font-family: "Noto Sans Malayalam", system-ui, sans-serif; }
+#gate form { width: 100%; max-width: 340px; display: flex; flex-direction: column; gap: 12px; text-align: center; }
+#gate h1 { margin: 0; font-size: 1.5rem; }
+#gate p { margin: 0; color: #4A5B80; font-size: 0.95rem; }
+#gate input { min-height: 52px; border: 1.5px solid #B8CBEA; border-radius: 14px; padding: 0 14px; font-size: 1.1rem; text-align: center; background: #fff; color: #1B2A4A; font-family: inherit; }
+#gate button { min-height: 52px; border: 0; border-radius: 14px; background: #1668D9; color: #fff; font-size: 1.05rem; font-weight: 700; font-family: inherit; }
+#gate .err { color: #B42318; min-height: 1.3em; font-weight: 600; }
+</style>
+<div id="gate">
+  <form id="gateForm" autocomplete="off">
+    <h1>അറബി അക്ഷര പുസ്തകം</h1>
+    <p>പ്രവേശന കോഡ് നൽകുക</p>
+    <input id="gateCode" type="password" autocomplete="off" aria-label="Access code">
+    <div class="err" id="gateErr" role="alert"></div>
+    <button type="submit">തുറക്കുക</button>
+  </form>
+</div>
+<script>
+// ACCESS CODE: change the text between the quotes to set a new code. Everyone uses the same one.
+// (This keeps casual visitors out. It is not strong security, because the code sits inside this file.)
+(function () {
+  var CODE = '';   // empty = no access code. To turn the code on again, put a code between the quotes, e.g. 'madrasa2026'.
+  var KEY = 'arabicLetters.access';
+  if (!CODE) return;
+  var ok = false;
+  try { ok = localStorage.getItem(KEY) === CODE; } catch (e) { ok = false; }
+  var root = document.documentElement;
+  if (ok) return;
+  root.classList.add('locked');
+  document.getElementById('gateForm').addEventListener('submit', function (e) {
+    e.preventDefault();
+    var v = document.getElementById('gateCode').value.trim();
+    if (v === CODE) {
+      try { localStorage.setItem(KEY, CODE); } catch (err) { /* ignore */ }
+      root.classList.remove('locked');
+      window.dispatchEvent(new Event('resize'));
+    } else {
+      document.getElementById('gateErr').textContent = 'കോഡ് ശരിയല്ല';
+      document.getElementById('gateCode').value = '';
+    }
+  });
+})();
+</script>
 
-<section id="home" class="screen on">
-  <div class="hero"><div><div class="logo">CV</div><div class="sub ar">تَعَلَّمِ الْعَرَبِيَّة</div></div><button class="ico" id="trophyBtn" title="Leaderboard">🏆</button></div>
-  <div class="prog"><div class="pbar"><i id="pfill"></i></div><span id="ptxt"></span></div>
-  <div class="card">
-    <label>കോഡ്</label>
-    <div class="pw"><input id="code" type="password" placeholder="കോഡ് നൽകുക" autocapitalize="characters" autocomplete="new-password" spellcheck="false"><button type="button" class="eye" id="eye" aria-label="കോഡ് കാണിക്കുക/മറയ്ക്കുക">👁</button></div>
-    <label>പേര്</label>
-    <input id="pname" type="text" placeholder="നിങ്ങളുടെ പേര്" autocomplete="off">
-    <button class="btn gold" id="startComp">🏁 കോമ്പറ്റീഷൻ തുടങ്ങാം</button>
-  </div>
-  <button class="btn" id="startNormal">▶ സാധാരണ കളി (കോഡ് വേണ്ട)</button>
-  <button class="btn ghost" id="cont" hidden></button>
-  <button class="btn" id="install" hidden>📲 ഫോണിൽ ഇൻസ്റ്റാൾ ചെയ്യുക</button>
-  <div id="lvgrid" class="lvgrid"></div>
-</section>
+<title>അറബി അക്ഷര പുസ്തകം</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Baloo+Chettan+2:wght@500;700&family=Noto+Sans+Malayalam:wght@400;600;700&family=Scheherazade+New:wght@400;700&display=swap">
+<style>
+/* Layout: title and 1-or-2 letter switch, scrolling letter strip, a ruled notebook page that turns by hand, pager below. */
+:root {
+  --bg: #E9F3FF;
+  --ink: #1B2A4A;
+  --muted: #566892;
+  --surface: #FFFFFF;
+  --line: #C3D6F2;
+  --yellow: #FFD23F;
+  --on-yellow: #1B2A4A;
+  --mark: #E0312B;
+  --hl: #1668D9;
+  --paper: #FFFDF8;
+  --paper-ink: #1B2A4A;
+  --paper-line: #C9DCF6;
+  --paper-margin: #F2A7A0;
+  --font-ar: "Scheherazade New", "Noto Naskh Arabic", "Amiri", "Geeza Pro", "Traditional Arabic", serif;
+  --font-disp: "Baloo Chettan 2", "Noto Sans Malayalam", system-ui, sans-serif;
+  --font-body: "Noto Sans Malayalam", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0F1A33;
+    --ink: #EAF1FF;
+    --muted: #A5B7DA;
+    --surface: #1B2A4A;
+    --line: #2E4272;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0F1A33;
+  --ink: #EAF1FF;
+  --muted: #A5B7DA;
+  --surface: #1B2A4A;
+  --line: #2E4272;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+html, body { height: 100%; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.4;
+  overscroll-behavior: none;
+  -webkit-tap-highlight-color: transparent;
+}
+button { font: inherit; color: inherit; cursor: pointer; }
+:focus-visible { outline: 3px solid var(--hl); outline-offset: 2px; }
 
-<section id="game" class="screen">
-  <div class="top"><button class="ico" id="back">←</button><div id="lvt"></div><div id="tm"></div><button class="ico" id="trophy2">🏆</button></div>
-  <div class="dots" id="dots"></div>
-  <div class="cnt" id="cnt"></div>
-  <div id="prompt" class="card"></div>
-  <div id="ans"></div>
-  <div id="acts" class="acts"></div>
-</section>
+.shell {
+  height: 100%;
+  max-width: 560px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding-inline: max(14px, env(safe-area-inset-left, 0px)) max(14px, env(safe-area-inset-right, 0px));
+  padding-block: 10px 10px;
+}
+.top { display: flex; align-items: center; justify-content: space-between; gap: 10px; flex-wrap: wrap; }
+.top h1 { margin: 0; font-family: var(--font-disp); font-size: 1.35rem; font-weight: 700; line-height: 1.2; }
+.mode { display: flex; width: 100%; background: var(--surface); border: 1px solid var(--line); border-radius: 999px; padding: 3px; }
+.mode button { flex: 1 1 0; border: 0; background: transparent; border-radius: 999px; padding: 6px 6px; font-weight: 600; font-size: 0.9rem; color: var(--muted); white-space: nowrap; }
+.mode button[aria-pressed="true"] { background: var(--yellow); color: var(--on-yellow); }
 
-<section id="fin" class="screen">
-  <div class="top"><button class="ico" id="finHome">⌂</button><div id="lvt2" style="font-weight:800">🎉 അഭിനന്ദനങ്ങൾ!</div><span style="width:44px"></span></div>
-  <div class="card">
-    <label>സർട്ടിഫിക്കറ്റിലെ പേര്</label>
-    <input id="certName" type="text" placeholder="നിങ്ങളുടെ പേര്" autocomplete="off">
-    <label class="chk" id="hideWrap"><input type="checkbox" id="hideRank"> Hide Rank (റാങ്ക് മറയ്ക്കുക)</label>
-  </div>
-  <canvas id="cert"></canvas>
-  <button class="btn gold" id="dl">⬇ സർട്ടിഫിക്കറ്റ് ഡൗൺലോഡ്</button>
-  <button class="btn" id="wa" style="background:#25d366;color:#052">🟢 WhatsApp ൽ ഷെയർ ചെയ്യുക</button>
-  <button class="btn ghost" id="finBoard">🏆 ലീഡർബോർഡ്</button>
-</section>
+.strip {
+  display: flex; gap: 6px; overflow-x: auto; padding: 2px 2px 8px;
+  -webkit-overflow-scrolling: touch; scrollbar-width: thin;
+}
+.k {
+  position: relative; flex: 0 0 auto; width: 54px; height: 64px;
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 0;
+  background: var(--surface); border: 1.5px solid var(--line); border-radius: 14px; padding: 0;
+}
+.kc { font-family: var(--font-ar); font-size: 34px; line-height: 1.25; }
+.kn { font-size: 10px; color: var(--muted); line-height: 1; margin-top: -2px; }
+.k[aria-pressed="true"] { background: var(--yellow); border-color: var(--yellow); color: var(--on-yellow); }
+.k[aria-pressed="true"] .kn { color: var(--on-yellow); }
+.k[data-o]::after {
+  content: attr(data-o); position: absolute; top: -6px; right: -4px;
+  width: 20px; height: 20px; border-radius: 50%;
+  background: var(--hl); color: #fff; font-size: 12px; font-weight: 700; line-height: 20px; text-align: center;
+}
+.tip { margin: 0; font-size: 0.88rem; color: var(--muted); }
 
-<div id="mum"><div class="mt ar">مُمْتَاز</div><div class="ms">ലെവൽ പൂർത്തിയായി!</div></div>
-<canvas id="fx"></canvas>
-<div class="mask" id="mask"><div class="box" id="box"></div></div>
-<div id="toast"></div>
+.stage { flex: 1 1 auto; min-height: 0; display: flex; flex-direction: column; gap: 8px; }
+.pagebar { display: flex; align-items: center; justify-content: space-between; gap: 10px; min-height: 52px; }
+.pageno { font-weight: 600; color: var(--muted); font-size: 0.95rem; }
+.speak {
+  width: 56px; height: 56px; border-radius: 50%;
+  border: 0; background: var(--hl); color: #fff;
+  display: grid; place-items: center;
+  box-shadow: 0 3px 0 rgba(0,0,0,0.18);
+}
+.speak:active { transform: translateY(2px); box-shadow: 0 1px 0 rgba(0,0,0,0.18); }
+.speak.on { animation: pulse 0.9s ease-in-out infinite; }
+.speak[hidden] { display: none; }
+@keyframes pulse { 0%, 100% { box-shadow: 0 0 0 0 rgba(22,104,217,0.5); } 50% { box-shadow: 0 0 0 12px rgba(22,104,217,0); } }
+
+.book {
+  position: relative; flex: 1 1 auto; min-height: 260px;
+  perspective: 1500px; touch-action: none; user-select: none; -webkit-user-select: none;
+  overflow: hidden; border-radius: 18px; border: 1.5px solid var(--line); background: var(--paper);
+}
+.leaf { position: absolute; inset: 0; }
+.flip { transform-origin: left center; transform-style: preserve-3d; will-change: transform; }
+.face { position: absolute; inset: 0; backface-visibility: hidden; -webkit-backface-visibility: hidden; overflow: hidden; }
+.paper {
+  background-color: var(--paper);
+  background-image:
+    linear-gradient(to right, transparent 0 34px, var(--paper-margin) 34px 35.5px, transparent 35.5px),
+    repeating-linear-gradient(to bottom, transparent 0 55px, var(--paper-line) 55px 56px);
+}
+.face.back { transform: rotateY(180deg); background: #EFE9DA; }
+.face.back::before { content: ""; position: absolute; inset: 0; background: repeating-linear-gradient(135deg, rgba(0,0,0,0.03) 0 6px, transparent 6px 12px); }
+.shade { position: absolute; inset: 0; pointer-events: none; opacity: 0; background: linear-gradient(90deg, rgba(20,24,40,0.05), rgba(20,24,40,0.55)); }
+.face.back .shade { background: linear-gradient(270deg, rgba(20,24,40,0.05), rgba(20,24,40,0.5)); }
+.under .shade { background: rgba(20,24,40,1); }
+
+.pg {
+  position: absolute; inset: 0; color: var(--paper-ink);
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px;
+  padding: 14px 16px 14px 44px; text-align: center;
+}
+.tags { display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 8px; }
+.chip { background: var(--yellow); color: var(--on-yellow); border-radius: 999px; padding: 3px 14px; font-weight: 700; font-size: 0.95rem; }
+.sub { font-family: var(--font-ar); font-size: 1.3rem; color: var(--muted); line-height: 1.6; direction: rtl; }
+.ar {
+  font-family: var(--font-ar); font-size: var(--fs, 160px); line-height: 1.6;
+  direction: rtl; unicode-bidi: isolate; white-space: nowrap; color: var(--paper-ink); font-weight: 400;
+}
+.mkbig { font-family: var(--font-ar); font-size: 46px; line-height: 1.5; color: var(--mark); font-weight: 700; direction: rtl; }
+.hl { color: var(--hl); }
+.mean { font-family: var(--font-disp); font-weight: 700; font-size: clamp(24px, 7vw, 34px); line-height: 1.2; }
+.snd { font-family: var(--font-disp); font-weight: 700; font-size: clamp(34px, 11vw, 52px); line-height: 1.15; color: var(--hl); }
+.lab { font-size: 0.78rem; color: #566892; }
+.nm { font-size: 0.9rem; color: #566892; }
+.pg.info .arrow { font-size: 54px; line-height: 1; color: var(--hl); }
+.pg.info .bigtxt { margin: 0; font-family: var(--font-disp); font-weight: 700; font-size: clamp(26px, 8vw, 36px); line-height: 1.2; }
+.pg.info .small { margin: 0; color: #566892; max-width: 24ch; }
+
+.pager { display: flex; align-items: center; justify-content: space-between; gap: 10px; min-height: 52px; }
+.pbtn { width: 52px; height: 52px; border-radius: 50%; border: 1.5px solid var(--line); background: var(--surface); font-size: 26px; line-height: 1; display: grid; place-items: center; }
+.pbtn:disabled { opacity: 0.35; }
+.mid { flex: 1; text-align: center; font-size: 0.82rem; color: var(--muted); }
+.dots { display: flex; justify-content: center; flex-wrap: wrap; gap: 5px; margin-bottom: 3px; }
+.dots i { width: 8px; height: 8px; border-radius: 50%; background: var(--line); display: block; }
+.dots i.on { background: var(--hl); }
+
+#toast { position: fixed; left: 50%; transform: translateX(-50%); top: calc(10px + env(safe-area-inset-top, 0px)); z-index: 30; max-width: min(92vw, 440px); background: var(--ink); color: var(--bg); padding: 10px 16px; border-radius: 12px; font-size: 0.9rem; text-align: center; pointer-events: none; }
+/* name written faintly in the page margin, reading from bottom to top */
+.k[data-done="1"]::before { content: "★"; position: absolute; top: -5px; left: -3px; font-size: 16px; line-height: 1; color: #F59E0B; }
+
+/* writing practice */
+.prac { position: relative; flex: 1 1 auto; min-height: 0; overflow: hidden; border-radius: 18px; border: 1.5px solid var(--line); color: var(--paper-ink); }
+.pracin { position: absolute; inset: 0; overflow-y: auto; -webkit-overflow-scrolling: touch; padding: 10px 12px 16px 44px; display: flex; flex-direction: column; align-items: center; gap: 8px; }
+.lv { display: flex; align-items: center; justify-content: center; flex-wrap: wrap; gap: 8px; width: 100%; }
+.pill { width: 34px; height: 34px; border-radius: 50%; border: 2px solid var(--paper-line); background: #fff; color: var(--paper-ink); font-weight: 700; }
+.pill[aria-current="true"] { background: var(--yellow); border-color: var(--yellow); color: var(--on-yellow); }
+.pill:disabled { opacity: 0.4; }
+.stars { display: inline-flex; gap: 4px; margin-left: 6px; }
+.stars i { width: 20px; height: 20px; background: var(--paper-line); clip-path: polygon(50% 0, 62% 35%, 98% 35%, 69% 57%, 80% 92%, 50% 71%, 20% 92%, 31% 57%, 2% 35%, 38% 35%); display: block; }
+.stars i.on { background: #F5B301; }
+.pmt { font-weight: 600; font-size: 0.92rem; text-align: center; max-width: 34ch; }
+.sndrow { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: center; gap: 2px 10px; min-height: 40px; }
+.sndml { font-family: var(--font-disp); font-weight: 700; font-size: 36px; line-height: 1.1; color: var(--hl); }
+.sndlab { font-size: 0.78rem; color: #566892; flex-basis: 100%; text-align: center; }
+.padarea { display: flex; flex-direction: column; align-items: center; gap: 8px; width: 100%; }
+.pad { position: relative; background: #fff; border: 2px solid var(--paper-line); border-radius: 16px; overflow: hidden; touch-action: none; flex: 0 0 auto; }
+.pad.ok { border-color: #1E9E5A; box-shadow: 0 0 0 4px rgba(30, 158, 90, 0.22); }
+.pad.bad { border-color: var(--mark); box-shadow: 0 0 0 4px rgba(224, 49, 43, 0.18); }
+.pc { position: absolute; inset: 0; width: 100%; height: 100%; touch-action: none; }
+.mdl { font-family: var(--font-ar); font-size: 64px; line-height: 1.6; direction: rtl; color: var(--paper-ink); }
+.mmeta { font-weight: 600; margin-top: -8px; }
+.plusrow { display: flex; direction: rtl; align-items: center; justify-content: center; flex-wrap: wrap; gap: 6px; font-family: var(--font-ar); font-size: 40px; line-height: 1.5; color: var(--paper-ink); }
+.plusrow .pl { font-family: system-ui, sans-serif; font-size: 22px; color: var(--mark); font-weight: 700; }
+.plusrow .lt { background: #fff; border: 2px solid var(--paper-line); border-radius: 12px; min-width: 52px; text-align: center; padding: 0 8px; }
+.boxes { display: grid; direction: rtl; gap: 8px; justify-content: center; }
+.cell { position: relative; }
+.ix { position: absolute; top: 4px; right: 6px; font-size: 12px; font-weight: 700; color: #566892; pointer-events: none; }
+.pbtns { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; }
+.b2 { min-height: 44px; padding: 6px 16px; border-radius: 12px; border: 1.5px solid var(--paper-line); background: #fff; color: var(--paper-ink); font-weight: 600; }
+.b2.main { background: var(--hl); border-color: var(--hl); color: #fff; }
+.b2:disabled { opacity: 0.45; }
+.fb { min-height: 24px; font-weight: 700; text-align: center; }
+.fb.ok { color: #14753F; }
+.fb.no { color: #B42318; }
+.reclab { font-size: 0.78rem; color: #566892; }
+.rec { display: flex; flex-wrap: wrap; justify-content: center; gap: 6px; min-height: 40px; }
+.rc { font-family: var(--font-ar); font-size: 26px; line-height: 1.6; padding: 0 10px; border-radius: 10px; border: 2px solid; direction: rtl; }
+.rc.ok { background: #E6F7EE; border-color: #1E9E5A; color: #14532D; }
+.rc.no { background: #FDECEA; border-color: var(--mark); color: #8A1C16; }
+.win { position: absolute; inset: 0; z-index: 3; background: var(--paper); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; padding: 14px 14px 14px 44px; text-align: center; color: var(--paper-ink); overflow-y: auto; }
+.win h2 { margin: 0; font-family: var(--font-disp); font-size: 2rem; line-height: 1.2; }
+.win p { margin: 0; }
+.winl { font-family: var(--font-disp); font-weight: 700; font-size: 1.3rem; color: var(--hl); }
+.wins { color: #566892; }
+.winb { display: flex; flex-direction: column; gap: 8px; margin-top: 8px; width: 100%; max-width: 260px; }
+.logo { width: 150px; height: auto; }
+@media (prefers-reduced-motion: no-preference) { .logo { animation: pop 0.6s cubic-bezier(.3,1.5,.5,1); } @keyframes pop { from { transform: scale(0.3) rotate(-12deg); opacity: 0; } to { transform: none; opacity: 1; } } }
+[hidden] { display: none !important; }
+@media (max-height: 620px) { .k { height: 56px; width: 48px; } .kc { font-size: 28px; } }
+@media (prefers-reduced-motion: reduce) { .speak.on { animation: none; } }
+</style>
+
+<div class="shell">
+  <header class="top">
+    <h1>അറബി അക്ഷരങ്ങൾ</h1>
+    <div class="mode" role="group" aria-label="മോഡ്">
+      <button type="button" data-mode="1" aria-pressed="true">ഒരു അക്ഷരം</button>
+      <button type="button" data-mode="2" aria-pressed="false">രണ്ട് അക്ഷരം</button>
+      <button type="button" data-mode="3" aria-pressed="false">എഴുതാം</button>
+    </div>
+  </header>
+
+  <div class="strip" id="strip" dir="rtl" role="group" aria-label="അറബി അക്ഷരങ്ങൾ"></div>
+  <p class="tip" id="tip"></p>
+
+  <section class="stage">
+    <div class="pagebar">
+      <span class="pageno" id="pageNo"></span>
+      <button id="speak" class="speak" type="button" aria-label="കേൾക്കുക">
+        <svg viewBox="0 0 24 24" width="30" height="30" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 9.5v5h3.5L12 18.5v-13L7.5 9.5H4z" fill="currentColor"/><path d="M15.5 9a4 4 0 0 1 0 6M18 6.5a7.5 7.5 0 0 1 0 11"/></svg>
+      </button>
+    </div>
+    <div class="book" id="book">
+      <div class="leaf under" id="under"><div class="paper" style="position:absolute;inset:0" id="underBody"></div><div class="shade" id="shU"></div></div>
+      <div class="leaf flip" id="flip">
+        <div class="face paper" id="front"></div>
+        <div class="face" id="frontShadeWrap" style="pointer-events:none"><div class="shade" id="shF"></div></div>
+        <div class="face back"><div class="shade" id="shB"></div></div>
+      </div>
+    </div>
+
+    <div class="prac paper" id="prac" hidden>
+      <div class="pracin" id="pracin">
+        <div class="lv" id="lv"></div>
+        <div class="pmt" id="pmt"></div>
+        <div class="sndrow" id="sndrow"></div>
+        <div class="padarea" id="padarea"></div>
+        <div class="pbtns">
+          <button type="button" class="b2" id="clr">മായ്ക്കുക</button>
+          <button type="button" class="b2" id="help" hidden>സഹായം</button>
+          <button type="button" class="b2" id="skip" hidden>ഒഴിവാക്കുക</button>
+          <button type="button" class="b2 main" id="chk">പരിശോധിക്കൂ</button>
+        </div>
+        <div class="fb" id="fb" role="status"></div>
+        <div class="reclab">എഴുതിയത്</div>
+        <div class="rec" id="rec"></div>
+      </div>
+      <div class="win" id="win" hidden>
+        <svg class="logo" viewBox="0 0 160 170" role="img" aria-label="അഭിനന്ദനങ്ങൾ">
+          <path d="M52 120 L36 160 L58 152 L70 168 L84 126Z" fill="#E0312B"/>
+          <path d="M108 120 L124 160 L102 152 L90 168 L76 126Z" fill="#1668D9"/>
+          <circle cx="80" cy="78" r="70" fill="#FFD23F"/>
+          <circle cx="80" cy="78" r="60" fill="none" stroke="#1B2A4A" stroke-width="2.5" stroke-dasharray="2 6" stroke-linecap="round"/>
+          <circle cx="80" cy="78" r="50" fill="#1668D9"/>
+          <polygon points="80,34 86,50 103,50 89,60 94,76 80,66 66,76 71,60 57,50 74,50" fill="#FFD23F"/>
+          <text x="80" y="106" text-anchor="middle" font-size="30" fill="#FFFFFF" font-family="'Scheherazade New','Noto Naskh Arabic','Amiri',serif">مَبْرُوك</text>
+        </svg>
+        <h2>അഭിനന്ദനങ്ങൾ!</h2>
+        <p id="winLetter" class="winl"></p>
+        <p class="wins">മൂന്ന് ലെവലും പൂർത്തിയാക്കി.</p>
+        <div class="winb">
+          <button type="button" class="b2 main" id="winNext">അടുത്ത അക്ഷരം</button>
+          <button type="button" class="b2" id="winAgain">വീണ്ടും എഴുതാം</button>
+          <button type="button" class="b2" id="winBook">പുസ്തകത്തിലേക്ക്</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="pager">
+    <button class="pbtn" id="prev" type="button" aria-label="മുമ്പത്തെ പേജ്">‹</button>
+    <div class="mid"><div class="dots" id="dots"></div><div id="hint">വിരൽ കൊണ്ട് വലിച്ച് പേജ് മറിക്കൂ</div></div>
+    <button class="pbtn" id="next" type="button" aria-label="അടുത്ത പേജ്">›</button>
+  </footer>
+</div>
+<div id="toast" role="status" hidden></div>
 
 <script>
-/* ================= CONFIG =================
- DB_URL: എല്ലാ ഫോണുകളിലും ഒരേ ലീഡർബോർഡ് കാണാൻ ഒരു Firebase Realtime Database URL നൽകുക
- (ഉദാ: "https://your-project-default-rtdb.firebaseio.com"; rules ൽ read/write ഓൺ ആക്കണം).
- ഒഴിച്ചിട്ടാൽ ലീഡർബോർഡ് ഈ ഫോണിൽ മാത്രം (localStorage) സേവ് ആകും. */
-const CFG={DB_URL:"",MASTER_H:559811118399194};
-function h53(s,seed=0){let h1=0xdeadbeef^seed,h2=0x41c6ce57^seed;for(let i=0;i<s.length;i++){const ch=s.charCodeAt(i);h1=Math.imul(h1^ch,2654435761);h2=Math.imul(h2^ch,1597334677)}h1=Math.imul(h1^(h1>>>16),2246822507)^Math.imul(h2^(h2>>>13),3266489909);h2=Math.imul(h2^(h2>>>16),2246822507)^Math.imul(h1^(h1>>>13),3266489909);return 4294967296*(2097151&h2)+(h1>>>0)}
-const normCode=c=>String(c||'').trim().replace(/\s+/g,' ').toUpperCase();
-const ck=c=>'k'+h53(normCode(c)).toString(36);
-let MASTER=false;try{MASTER=localStorage.getItem('cv_master')==='1'}catch(e){}
-function fetchT(u,o,ms=7000){const c=new AbortController(),t=setTimeout(()=>c.abort(),ms);return fetch(u,{...o,signal:c.signal}).finally(()=>clearTimeout(t))}
+(function () {
+  'use strict';
+  function $(s) { return document.querySelector(s); }
+  function el(tag, cls, text) { var e = document.createElement(tag); if (cls) e.className = cls; if (text !== undefined && text !== null) e.textContent = text; return e; }
 
-const $=s=>document.querySelector(s);
-const el=(t,c)=>{const e=document.createElement(t);if(c)e.className=c;return e};
-const rnd=n=>Math.floor(Math.random()*n);
-const shuf=a=>{a=[...a];for(let i=a.length-1;i>0;i--){const j=rnd(i+1);[a[i],a[j]]=[a[j],a[i]]}return a};
-const pick=(a,n=1)=>shuf(a).slice(0,n);
-const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
-const fmt=s=>{s=Math.round(s);return String(Math.floor(s/60)).padStart(2,'0')+':'+String(s%60).padStart(2,'0')};
-function toast(t){const e=$('#toast');e.textContent=t;e.style.display='block';clearTimeout(toast.t);toast.t=setTimeout(()=>e.style.display='none',3500)}
+  /* ---------- the 28 letters: [letter, Arabic name, Malayalam name, Malayalam consonant] ---------- */
+  var LET = [
+    ['ا', 'أَلِف', 'അലിഫ്', ''], ['ب', 'بَاء', 'ബാഅ്', 'ബ'], ['ت', 'تَاء', 'താഅ്', 'ത'], ['ث', 'ثَاء', 'സാഅ്', 'സ'],
+    ['ج', 'جِيم', 'ജീം', 'ജ'], ['ح', 'حَاء', 'ഹാഅ്', 'ഹ'], ['خ', 'خَاء', 'ഖാഅ്', 'ഖ'], ['د', 'دَال', 'ദാൽ', 'ദ'],
+    ['ذ', 'ذَال', 'ദാൽ', 'ദ'], ['ر', 'رَاء', 'റാഅ്', 'റ'], ['ز', 'زَاي', 'സായ്', 'സ'], ['س', 'سِين', 'സീൻ', 'സ'],
+    ['ش', 'شِين', 'ശീൻ', 'ശ'], ['ص', 'صَاد', 'സ്വാദ്', 'സ്വ'], ['ض', 'ضَاد', 'ദ്വാദ്', 'ദ്വ'], ['ط', 'طَاء', 'ത്വാഅ്', 'ത്വ'],
+    ['ظ', 'ظَاء', 'ള്വാഅ്', 'ള്വ'], ['ع', 'عَيْن', 'ഐൻ', ''], ['غ', 'غَيْن', 'ഗൈൻ', 'ഗ'], ['ف', 'فَاء', 'ഫാഅ്', 'ഫ'],
+    ['ق', 'قَاف', 'ഖാഫ്', 'ഖ'], ['ك', 'كَاف', 'കാഫ്', 'ക'], ['ل', 'لَام', 'ലാം', 'ല'], ['م', 'مِيم', 'മീം', 'മ'],
+    ['ن', 'نُون', 'നൂൻ', 'ന'], ['ه', 'هَاء', 'ഹാഅ്', 'ഹ'], ['و', 'وَاو', 'വാവ്', 'വ'], ['ي', 'يَاء', 'യാഅ്', 'യ']
+  ];
+  function letterOf(c) { for (var i = 0; i < LET.length; i++) if (LET[i][0] === c) return LET[i]; return null; }
 
-/* ================= DATA ================= */
-const FA='\u064E',KA='\u0650',DA='\u064F',SU='\u0652',SH='\u0651';
-const LET=[["ا","അലിഫ്","ألف"],["ب","ബാഅ്","باء"],["ت","താഅ്","تاء"],["ث","സാഅ്","ثاء"],["ج","ജീം","جيم"],["ح","ഹാഅ്","حاء"],["خ","ഖാഅ്","خاء"],["د","ദാൽ","دال"],["ذ","ധാൽ","ذال"],["ر","റാഅ്","راء"],["ز","സായ്","زاي"],["س","സീൻ","سين"],["ش","ശീൻ","شين"],["ص","സ്വാദ്","صاد"],["ض","ദ്വാദ്","ضاد"],["ط","ത്വാഅ്","طاء"],["ظ","ള്വാഅ്","ظاء"],["ع","ഐൻ","عين"],["غ","ഗൈൻ","غين"],["ف","ഫാഅ്","فاء"],["ق","ഖാഫ്","قاف"],["ك","കാഫ്","كاف"],["ل","ലാം","لام"],["م","മീം","ميم"],["ن","നൂൻ","نون"],["ه","ഹാഅ്","هاء"],["و","വാവ്","واو"],["ي","യാഅ്","ياء"]];
-const BASE=LET.slice(1);
-const HN={[FA]:'ഫത്ഹ്',[KA]:'കസ്‌റ്',[DA]:'ദമ്മ്',[SU]:'സുകൂൻ'};
-const U3=[['ب','ബ'],['ت','ത'],['ج','ജ'],['د','ദ'],['ر','ര'],['ش','ശ'],['ف','ഫ'],['ك','ക'],['ل','ല'],['م','മ'],['ن','ന'],['ه','ഹ'],['س','സ'],['ط','ട']];
-const MSIGN={[FA]:'',[KA]:'ി',[DA]:'ു'};
-const SIM={ب:'تثن',ت:'بثن',ث:'تبس',ج:'حخ',ح:'جخ',خ:'حج',د:'ذر',ذ:'دز',ر:'زد',ز:'رذ',س:'شص',ش:'سص',ص:'ضس',ض:'صط',ط:'ظض',ظ:'طض',ع:'غ',غ:'ع',ف:'ق',ق:'فك',ك:'لق',ل:'كن',م:'نه',ن:'مب',ه:'ح',و:'ر',ي:'ن',ا:'ل'};
-const CL=s=>s.match(/[\u0621-\u064A][\u064B-\u0652]*/g)||[];
-
-// ലെവൽ 5 – രണ്ടക്ഷര വാക്കുകൾ (അർത്ഥമുള്ളതും ഇല്ലാത്തതും)
-const W5=[['مِنْ','മിൻ'],['عَنْ','അൻ'],['كَمْ','കം'],['لَمْ','ലം'],['لَنْ','ലൻ'],['هَلْ','ഹൽ'],['قَدْ','ഖദ്'],['بَلْ','ബൽ'],['دَمْ','ദം'],['بَتْ','ബത്'],['تَشْ','തശ്'],['نَفْ','നഫ്'],['مُنْ','മുൻ'],['بِتْ','ബിത്'],['دُفْ','ദുഫ്'],['لِجْ','ലിജ്']];
-// ലെവൽ 6/7 – ശദ്ദ് വാക്കുകൾ
-const W6=[['جَنَّة','ജന്ന'],['سُنَّة','സുന്ന'],['رَبَّ','റബ്ബ'],['حَجَّ','ഹജ്ജ'],['مَدَّ','മദ്ദ'],['شَدَّ','ശദ്ദ'],['عَلَّمَ','അല്ലമ'],['كَسَّرَ','കസ്സറ'],['نَزَّلَ','നസ്സല'],['مُحَمَّد','മുഹമ്മദ്'],['قَطَّعَ','ഖത്തഅ'],['دَرَّسَ','ദർറസ']];
-// ലെവൽ 8/9/10 – മദ്ദ് വാക്കുകൾ ( * = മദ്ദ് അക്ഷരം )
-const M8=[['كِ|تَ|*ا|بْ','കിതാബ്'],['بَ|*ا|بْ','ബാബ്'],['نُ|*و|رْ','നൂർ'],['فِ|*ي|لْ','ഫീൽ'],['قَ|*ا|لَ','ഖാല'],['دَ|*ا|رْ','ദാർ'],['كُ|*و|بْ','കൂബ്'],['جَ|*ا|مِ|عْ','ജാമിഅ്'],['قِ|*ي|لَ','ഖീല'],['يَ|قُ|*و|لُ','യഖൂലു'],['مَ|سِ|*ي|رْ','മസീർ'],['هَ|ذَ|*ا','ഹദാ'],['مَ|لِ|*ي|كْ','മലീക്'],['كَ|بِ|*ي|رْ','കബീർ'],['سَ|لَ|*ا|مْ','സലാം'],['كَ|رِ|*ي|مْ','കരീം'],['رَ|حِ|*ي|مْ','റഹീം'],['كَ|*ا|تِ|بْ','കാതിബ്'],['مِ|فْ|تَ|*ا|حْ','മിഫ്താഹ്'],['مِ|صْ|بَ|*ا|حْ','മിസ്ബാഹ്'],['سُ|لْ|طَ|*ا|نْ','സുൽത്താൻ'],['عُ|ثْ|مَ|*ا|نْ','ഉസ്മാൻ'],['يَ|عْ|قُ|*و|بْ','യഅ്ഖൂബ്'],['يَ|عْ|مَ|لُ|*و|نَ','യഅ്മലൂന'],['مُ|سْ|لِ|مُ|*و|نَ','മുസ്ലിമൂന']];
-// ലെവൽ 11 – മദ്ദും ശദ്ദും
-const W11=[['رَبَّنَا','റബ്ബനാ'],['كُرَّاسُ','കുർറാസു'],['قَوَّامُ','ഖവ്വാമു'],['نَجَّارْ','നജ്ജാർ'],['بَقَّالْ','ബഖ്ഖാൽ'],['جَمَّالُ','ജമ്മാലു'],['سَيَّارَةُ','സയ്യാറത്തു'],['تَوَّابُ','തവ്വാബു'],['عَلَّامُ','അല്ലാമു'],['حَدَّادْ','ഹദ്ദാദ്'],['خَبَّازُ','ഖബ്ബാസു']];
-
-function mut(w){
-  const c=CL(w),ops=[];
-  c.forEach((x,i)=>{
-    const b=x[0];
-    if(SIM[b])ops.push(()=>{const n=[...c];n[i]=SIM[b][rnd(SIM[b].length)]+x.slice(1);return n.join('')});
-    if(/[\u064E\u0650\u064F]/.test(x))ops.push(()=>{const n=[...c];const h=pick([FA,KA,DA].filter(z=>!x.includes(z)))[0];n[i]=x.replace(/[\u064E\u0650\u064F]/,h);return n.join('')});
-    if(x.includes(SU))ops.push(()=>{const n=[...c];n[i]=x.replace(SU,pick([FA,KA,DA])[0]);return n.join('')});
-    if(x.includes(SH))ops.push(()=>{const n=[...c];n[i]=x.replace(SH,'');return n.join('')});
-    if(x==='ا'&&i>0)ops.push(()=>{const n=[...c];n.splice(i,1);return n.join('')});
-  });
-  return ops[rnd(ops.length)]();
-}
-function wordOpts(w,n=4){
-  const s=new Set([w]);let t=0;
-  while(s.size<n&&t++<60){const m=mut(w);if(m!==w)s.add(m)}
-  return shuf([...s]).map(x=>({t:x,v:x,c:'ar'}));
-}
-
-/* ================= LEVELS ================= */
-const LV=[null,
- {t:'അക്ഷരമാല',min:10},{t:'ഹറക്കത്ത് തിരിച്ചറിയൽ',min:6},{t:'ഹറക്കത്ത് വായന',min:8},{t:'മദ്ദ് അക്ഷരം',min:20},
- {t:'രണ്ടക്ഷര വാക്കുകൾ',min:8},{t:'ശദ്ദ് സ്ഥാനം',min:6},{t:'ശദ്ദ് അക്ഷരം',min:6},{t:'മദ്ദ് ഗ്യാപ്പ്',min:6},
- {t:'കൂട്ടിയെഴുത്ത്',min:4},{t:'വേർതിരിച്ചെഴുത്ത്',min:4},{t:'സമ്പൂർണ്ണ വാക്കുകൾ',min:8}];
-const STREAK=4;
-
-const GEN={};
-GEN[1]=()=>{const pool=G&&G.seen?LET.filter(l=>!G.seen.has(l[0])):LET;const t=(pool.length?pool:LET)[rnd(pool.length||28)];const o=shuf([t,...pick(LET.filter(x=>x!==t),5)]);
-  return{key:'1'+t[0],prompt:`<div class="ml big" style="font-size:46px">${t[1]}</div><div class="ml">ഈ അക്ഷരം തിരഞ്ഞെടുക്കുക</div>`,audio:t[2],kind:'choice',opts:o.map(x=>({t:x[0],v:x[0],c:'ar'})),ans:t[0]}};
-GEN[2]=()=>{const hs=[FA,KA,DA,SU],h=hs[rnd(4)],nT=3+rnd(2);let it=[];
-  for(let i=0;i<12;i++)it.push({l:BASE[rnd(BASE.length)][0],h:i<nT?h:pick(hs.filter(x=>x!==h))[0]});it=shuf(it);
-  return{key:'2'+h+it.map(i=>i.l).join(''),prompt:`<div class="ml">ഈ ഹറകത്തുള്ള (${HN[h]}) എല്ലാ അക്ഷരങ്ങളും തിരഞ്ഞെടുക്കുക</div><div class="ar big">${BASE[rnd(BASE.length)][0]+h}</div>`,
-  kind:'multi',items:it.map(i=>i.l+i.h),ans:it.map(i=>i.h===h)}};
-GEN[3]=()=>{const [l,m]=U3[rnd(U3.length)],h=[FA,KA,DA][rnd(3)];const ans=l+h;const s=new Set([ans]);
-  s.add(l+pick([FA,KA,DA].filter(x=>x!==h))[0]);
-  pick(U3.filter(x=>x[0]!==l),2).forEach(x=>s.add(x[0]+h));
-  return{key:'3'+ans,prompt:`<div class="ml big" style="font-size:54px">${m+MSIGN[h]}</div><div class="ml">ഇതിന്റെ ശരിയായ അറബി രൂപം?</div>`,audio:ans,kind:'choice',opts:shuf([...s]).map(x=>({t:x,v:x,c:'ar'})),ans}};
-GEN[4]=()=>{const ls=pick(U3.filter(x=>x[0]!=='ي'&&x[0]!=='و'),3).map(x=>x[0]),hs=[FA,KA,DA],hl=rnd(3);
-  const M={[FA]:'ا',[KA]:'ي',[DA]:'و'};
-  const tiles=ls.map((l,i)=>`<span class="tile ar ${i===hl?'hl':''}">${l+hs[i]}</span>`).join('');
-  return{key:'4'+ls[hl]+hs[hl]+rnd(99),prompt:`<div class="tiles">${tiles}</div><div class="ml" style="margin-top:8px">മഞ്ഞ ബോക്സിലെ അക്ഷരത്തെ നീട്ടാൻ ഏത് മദ്ദ് അക്ഷരം?</div>`,
-  kind:'choice',row:1,opts:shuf([['ا','അലിഫ്'],['و','വാവ്'],['ي','യാഅ്']]).map(x=>({t:x[0],v:x[0],c:'ar'})),ans:M[hs[hl]]}};
-GEN[5]=()=>{const [w,m]=W5[rnd(W5.length)];
-  return{key:'5'+w,prompt:`<div class="ml">ഈ ഉച്ചാരണത്തിന് ശരിയായ വാക്ക്?</div><div class="ml big" style="font-size:44px">${m}</div>`,audio:w,kind:'choice',opts:wordOpts(w),ans:w}};
-GEN[6]=()=>{const [w,m]=W6[rnd(W6.length)],c=CL(w);const clean=c.map(x=>x.replace(SH,''));
-  return{key:'6'+w,prompt:`<div class="ml">ശദ്ദ് വരേണ്ട അക്ഷരം തൊടുക</div><div class="ml big" style="font-size:44px">${m}</div>`,audio:w,kind:'choice',row:1,
-  opts:clean.map((x,i)=>({t:x,v:i,c:'ar'})),ans:c.findIndex(x=>x.includes(SH))}};
-GEN[7]=()=>{const [w,m]=W6[rnd(W6.length)],c=CL(w);const sc=c.find(x=>x.includes(SH))[0];
-  const letters=[...new Set(c.map(x=>x[0]))].filter(x=>x!==sc);
-  const extra=Object.keys(SIM).filter(x=>!letters.includes(x)&&x!==sc);
-  const o=shuf([sc,...pick(letters,2),...pick(extra,1)]);
-  return{key:'7'+w,prompt:`<div class="ml">${m}</div><div class="ar big" style="font-size:54px">${w}</div><div class="ml">ശദ്ദ് വരുന്ന അക്ഷരം ഏത്?</div>`,audio:w,kind:'choice',opts:o.map(x=>({t:x,v:x,c:'ar'})),ans:sc}};
-function parseM(s){const it=s.split('|'),mi=it.findIndex(x=>x[0]==='*');const parts=it.filter(x=>x[0]!=='*');return{it,mi,parts,ans:mi-1,mad:it[mi].slice(1),joined:it.map(x=>x.replace('*','')).join('')}}
-GEN[8]=()=>{const all=M8.map(x=>[x,parseM(x[0])]);const la=G&&G.lastAns,lm=G&&G.lastMad;let pool=all.filter(x=>x[1].ans!==la&&x[1].mad!==lm);if(!pool.length)pool=all.filter(x=>x[1].ans!==la);if(!pool.length)pool=all;const [[s,m],p]=pool[rnd(pool.length)];
-  return{key:'8'+s,prompt:`<div class="ml">മദ്ദ് അക്ഷരം വരേണ്ട സ്ഥാനം തൊടുക</div><div class="ml big" style="font-size:44px">${m}</div>`,audio:p.joined,kind:'gap',parts:p.parts,ans:p.ans,mad:p.mad}};
-const M8S=M8.filter(x=>x[0].split('|').length<=4);
-const NOJ='اأإآدذرزوؤة'; // ശേഷമുള്ള അക്ഷരവുമായി ചേരാത്ത അക്ഷരങ്ങൾ
-GEN[9]=()=>{const [s,m]=M8S[rnd(M8S.length)],p=parseM(s),cl=p.it.map(x=>x.replace('*',''));
-  const groups=[];let c=0;cl.forEach((x,i)=>{c++;if(NOJ.includes(x[0])&&i<cl.length-1){groups.push(c);c=0}});if(c)groups.push(c);
-  const tiles=cl.map(x=>`<span class="tile ar" style="font-size:36px">${x}</span>`).join('');
-  return{key:'9'+s,prompt:`<div class="ml">ഈ അക്ഷരങ്ങൾ കൂട്ടിച്ചേർത്ത് എഴുതുക (${m})</div><div class="tiles" style="margin-top:8px">${tiles}</div><div class="ml" style="font-size:14px;color:var(--mut);margin-top:8px">ചേരുന്നവ ചേർത്തും, ا د ذ ر ز و എന്നിവയ്ക്ക് ശേഷം ഗ്യാപ്പ് ഇട്ടും, ഹറക്കത്ത് സഹിതം</div>`,kind:'draw',cells:[p.joined],cl,groups}};
-GEN[10]=()=>{const [s,m]=M8S[rnd(M8S.length)],p=parseM(s),cl=p.it.map(x=>x.replace('*',''));
-  const jn=i=>i<cl.length-1&&!NOJ.includes(cl[i][0]);
-  const ctx=cl.map((x,i)=>(i>0&&jn(i-1)?'‍':'')+x+(jn(i)?'‍':''));
-  return{key:'10'+s,prompt:`<div class="ml">ഈ വാക്കിലെ അക്ഷരങ്ങൾ ഓരോന്നും ഒറ്റയ്ക്ക് എഴുതുമ്പോഴുള്ള രൂപത്തിൽ (ചേർക്കാതെ), ഹറക്കത്ത് സഹിതം, ഓരോ കള്ളിയിലും എഴുതുക (${m})</div><div class="ar big" style="font-size:54px">${p.joined}</div>`,audio:p.joined,kind:'draw',cells:cl,ctx}};
-GEN[11]=()=>{const [w,m]=W11[rnd(W11.length)];
-  return{key:'11'+w,prompt:`<div class="ml">ശരിയായ വാക്ക് തിരഞ്ഞെടുക്കുക</div><div class="ml big" style="font-size:44px">${m}</div>`,audio:w,kind:'choice',opts:wordOpts(w),ans:w}};
-
-/* ================= AUDIO ================= */
-let voice=null,spk=0,warned=false;
-function loadV(){if(!('speechSynthesis' in window))return;voice=speechSynthesis.getVoices().find(v=>/^ar/i.test(v.lang))||null}
-if('speechSynthesis' in window){loadV();speechSynthesis.onvoiceschanged=loadV}
-function stopSay(){spk++;if('speechSynthesis' in window)speechSynthesis.cancel()}
-function say(text,times=3){
-  if(!('speechSynthesis' in window)){return}
-  if(!voice&&!warned){warned=true;toast('ഈ ഫോണിൽ അറബി ശബ്ദം കണ്ടില്ല. Settings → Text-to-speech ൽ Arabic വോയ്സ് ഇൻസ്റ്റാൾ ചെയ്യുക.')}
-  speechSynthesis.cancel();const id=++spk;let i=0;
-  const one=()=>{if(id!==spk||i>=times)return;i++;const u=new SpeechSynthesisUtterance(text);u.lang='ar-SA';if(voice)u.voice=voice;u.rate=.7;u.onend=()=>setTimeout(one,450);speechSynthesis.speak(u)};
-  setTimeout(one,60);
-}
-
-/* ================= STORAGE / BOARD ================= */
-let S={mode:'normal',code:'',name:'',key:'normal'};
-let P={level:1,done:[],points:0,time:0,rank:null,ls:{streak:0,correct:0}};
-let G=null;
-const defP=()=>({level:1,done:[],points:0,time:0,rank:null,ls:{streak:0,correct:0}});
-function loadP(){try{P=JSON.parse(localStorage.getItem('cvp_'+S.key))||defP()}catch(e){P=defP()}}
-function save(){try{localStorage.setItem('cvp_'+S.key,JSON.stringify(P));localStorage.setItem('cv_last',JSON.stringify(S))}catch(e){}}
-async function dbGet(code){
-  const k=ck(code);
-  if(CFG.DB_URL){try{const r=await fetchT(`${CFG.DB_URL}/comps/${k}.json`);const j=await r.json();return j?Object.values(j):[]}catch(e){}}
-  try{return JSON.parse(localStorage.getItem('cvb_'+k)||'[]')}catch(e){return[]}
-}
-async function dbPut(code,en){
-  const c=ck(code),k=en.name.toLowerCase().replace(/[.#$\[\]\/]/g,'_');
-  const better=(n,o)=>!o||n.points>o.points||(n.points===o.points&&n.time<=o.time);
-  if(CFG.DB_URL){
-    const u=`${CFG.DB_URL}/comps/${c}/${encodeURIComponent(k)}.json`;
-    try{
-      let o=null;try{o=await (await fetchT(u)).json()}catch(e){}
-      if(!better(en,o))return;          // നേടിയ ഉയർന്ന പോയിന്റ് ഒരിക്കലും കുറയില്ല
-      await fetchT(u,{method:'PUT',body:JSON.stringify(en)});return}catch(e){}}
-  const a=await dbGet(code),o=a.find(x=>x.name.toLowerCase()===en.name.toLowerCase());
-  if(!better(en,o))return;
-  const b=a.filter(x=>x.name.toLowerCase()!==en.name.toLowerCase());b.push(en);
-  try{localStorage.setItem('cvb_'+c,JSON.stringify(b))}catch(e){}
-}
-const sortB=a=>a.sort((x,y)=>y.points-x.points||x.time-y.time);
-async function pushBoard(final){
-  if(S.mode!=='comp')return;
-  await dbPut(S.code,{name:S.name,points:P.points,time:Math.round(P.time),level:P.done.length,done:!!final,ts:Date.now()});
-}
-async function showBoard(code){
-  if(!code){toast('ആദ്യം കോഡ് നൽകുക');return}
-  const b=sortB(await dbGet(code));
-  let h=`<h2>🏆 ലീഡർബോർഡ്</h2>`;
-  if(!b.length)h+='<p>ഇതുവരെ ആരും കളിച്ചിട്ടില്ല.</p>';
-  b.slice(0,3).forEach((x,i)=>{h+=`<div class="row3"><b>${['🥇','🥈','🥉'][i]}</b><span>${esc(x.name)}</span><em>${x.points} pts · ${fmt(x.time)}</em></div>`});
-  if(S.mode==='comp'&&S.code===code){const r=b.findIndex(x=>x.name.toLowerCase()===S.name.toLowerCase());if(r>2)h+=`<p>നിങ്ങളുടെ സ്ഥാനം: ${r+1}</p>`}
-  if(!CFG.DB_URL)h+='<p style="font-size:12px;color:var(--mut)">ഓൺലൈൻ ലീഡർബോർഡ് സജ്ജമാക്കിയിട്ടില്ല: ഈ ഫോണിലെ കളിക്കാർ മാത്രം</p>';
-  modal(h,[['അടയ്ക്കുക',null]]);
-}
-function modal(html,btns){
-  const b=$('#box');b.innerHTML=html;
-  btns.forEach(([t,f,c])=>{const x=el('button','btn '+(c||''));x.textContent=t;x.onclick=()=>{$('#mask').classList.remove('on');f&&f()};b.appendChild(x)});
-  $('#mask').classList.add('on');
-}
-
-/* ================= NAVIGATION ================= */
-function show(id){document.querySelectorAll('.screen').forEach(s=>s.classList.toggle('on',s.id===id));window.scrollTo(0,0)}
-function renderHome(){
-  const g=$('#lvgrid');g.innerHTML='';
-  for(let n=1;n<=11;n++){
-    const st=n<P.level?'dn':n===P.level?'cur':MASTER?'op':'lock';
-    const b=el('button','lv '+st);
-    b.innerHTML=`<b>${st==='dn'?'✓':st==='lock'?'🔒':n}</b><span>${esc(LV[n].t)}</span>`;
-    if(st!=='lock')b.onclick=()=>startLevel(n,n!==P.level);
-    g.appendChild(b);
-  }
-  const dn=Math.min(Math.max(P.level-1,0),11);
-  $('#pfill').style.width=(dn/11*100)+'%';$('#ptxt').textContent=`${dn}/11`+(MASTER?' 🔓':'');
-  const c=$('#cont');
-  if(P.level>11){c.hidden=false;c.textContent='🎓 സർട്ടിഫിക്കറ്റ് കാണുക'}
-  else if(P.done.length||P.ls.streak||P.points){c.hidden=false;c.textContent=`⏩ തുടരുക – ലെവൽ ${P.level}`}
-  else c.hidden=true;
-  show('home');
-}
-function setSession(s){S=s;loadP();save()}
-$('#startNormal').onclick=()=>{setSession({mode:'normal',code:'',name:'',key:'normal'});go()};
-$('#startComp').onclick=()=>{
-  const code=normCode($('#code').value),name=$('#pname').value.trim();
-  if(code&&h53(code)===CFG.MASTER_H){MASTER=true;try{localStorage.setItem('cv_master','1')}catch(e){}$('#code').value='';toast('🔓 എല്ലാ ലെവലുകളും അൺലോക്ക് ആയി');renderHome();return}
-  if(!code||!name){toast('കോഡും പേരും നൽകുക');return}
-  if(!CFG.DB_URL)toast('ശ്രദ്ധിക്കുക: ഓൺലൈൻ ലീഡർബോർഡ് സജ്ജമാക്കിയിട്ടില്ല, ഈ ഫോണിൽ മാത്രം സേവ് ആകും');
-  setSession({mode:'comp',code,name,key:'c|'+ck(code)+'|'+name.toLowerCase()});go();
-};
-$('#cont').onclick=go;
-$('#eye').onclick=()=>{const i=$('#code');i.type=i.type==='password'?'text':'password'};
-function go(){P.level>11?showDone():startLevel(Math.min(P.level,11),false)}
-$('#trophyBtn').onclick=()=>showBoard(normCode($('#code').value)||S.code);
-$('#trophy2').onclick=()=>showBoard(S.code);
-$('#back').onclick=()=>{addTime();save();stopSay();G=null;renderHome()};
-$('#finHome').onclick=()=>renderHome();
-$('#finBoard').onclick=()=>showBoard(S.code);
-
-/* ================= GAME CORE ================= */
-function startLevel(n,practice){
-  const resume=!practice&&n===P.level;
-  G={n,practice,streak:resume?P.ls.streak:0,correct:resume?P.ls.correct:0,wq:[],since:9,t0:Date.now(),hint:true,last:null,lock:0,seen:new Set(resume&&P.ls.seen?P.ls.seen:[])};
-  $('#lvt').textContent=`ലെവൽ ${n}`+(practice?' (പ്രാക്ടീസ്)':'');
-  $('#tm').textContent='';
-  show('game');nextQ();
-}
-function addTime(){if(G&&G.t0){const d=(Date.now()-G.t0)/1000;if(!G.practice)P.time+=d;G.t0=Date.now()}}
-setInterval(()=>{if(G&&S.mode==='comp'&&$('#game').classList.contains('on'))$('#tm').textContent='⏱ '+fmt(P.time+(Date.now()-G.t0)/1000)},500);
-function hud(){
-  $('#dots').innerHTML=Array.from({length:STREAK},(_,i)=>`<i class="${i<G.streak?'on':''}"></i>`).join('');
-  $('#cnt').textContent=`തുടർച്ചയായ ശരി: ${G.streak}/${STREAK} · ${G.n===1?'അക്ഷരങ്ങൾ: '+G.seen.size+'/28':'ശരി ഉത്തരങ്ങൾ: '+G.correct+'/'+LV[G.n].min}`+(G.wq.length?` · ആവർത്തിക്കാൻ: ${G.wq.length}`:'')+(S.mode!=='normal'||true?` · ⭐ ${P.points}`:'');
-}
-function nextQ(){
-  let q;
-  if(G.wq.length&&G.since>=2){q=G.wq[0];if(q===G.last&&G.wq.length>1)q=G.wq[1];if(q.kind==='choice')q.opts=shuf(q.opts)}
-  else{for(let t=0;t<8;t++){q=GEN[G.n]();if(!G.last||q.key!==G.last.key)break}}
-  G.last=q;render(q);
-}
-const R={};
-function render(q){
-  G.q=q;G.lock=0;G.qt=Date.now();if(q.kind==='gap'){G.lastAns=q.ans;G.lastMad=q.mad}
-  $('#prompt').innerHTML=q.prompt+(q.audio?`<button class="btn sm" id="rep">🔊 വീണ്ടും കേൾക്കുക</button>`:'');
-  const A=$('#ans');A.innerHTML='';$('#acts').innerHTML='';
-  if(q.audio){$('#rep').onclick=()=>say(q.audio);say(q.audio)}else stopSay();
-  R[q.kind](q,A);hud();
-}
-function finishQ(ok){
-  const q=G.q;addTime();
-  if(ok){if(G.n===1)G.seen.add(q.ans);G.streak++;G.correct++;if(!G.practice)P.points+=100+Math.max(0,50-Math.floor((Date.now()-G.qt)/400));G.wq=G.wq.filter(x=>x!==q)}
-  else{G.streak=0;if(!G.wq.includes(q))G.wq.push(q);G.since=0}
-  G.since++;
-  if(!G.practice)P.ls={streak:G.streak,correct:G.correct,seen:[...G.seen]};
-  save();hud();
-  setTimeout(()=>{if(G&&G.streak>=STREAK&&G.correct>=LV[G.n].min&&!G.wq.length&&(G.n!==1||G.seen.size>=28))levelDone();else if(G)nextQ()},ok?650:1500);
-}
-R.choice=(q,A)=>{
-  const g=el('div','opts'+(q.row?' row':''));
-  q.opts.forEach(o=>{const b=el('button','opt '+o.c);b.textContent=o.t;
-    b.onclick=()=>{if(G.lock)return;G.lock=1;const ok=o.v===q.ans;b.classList.add(ok?'ok':'bad');
-      if(!ok)[...g.children].forEach((c,i)=>{if(q.opts[i].v===q.ans)c.classList.add('ok')});finishQ(ok)};
-    g.appendChild(b)});
-  A.appendChild(g);
-};
-R.multi=(q,A)=>{
-  const g=el('div','multi'),sel=q.items.map(()=>false),bs=[];
-  q.items.forEach((t,i)=>{const b=el('button','opt ar');b.textContent=t;b.onclick=()=>{if(G.lock)return;sel[i]=!sel[i];b.classList.toggle('sel',sel[i])};bs.push(b);g.appendChild(b)});
-  A.appendChild(g);
-  const c=el('button','btn gold');c.textContent='✔ പരിശോധിക്കുക';
-  c.onclick=()=>{if(G.lock)return;G.lock=1;let ok=true;
-    bs.forEach((b,i)=>{b.classList.remove('sel');if(q.ans[i]&&sel[i])b.classList.add('ok');else if(q.ans[i]){b.classList.add('ok');ok=false}else if(sel[i]){b.classList.add('bad');ok=false}});finishQ(ok)};
-  $('#acts').appendChild(c);
-};
-R.gap=(q,A)=>{
-  const row=el('div','gaprow'),gs=[];
-  q.parts.forEach((p,i)=>{
-    const t=el('span','tile ar');t.textContent=p;row.appendChild(t);
-    const g=el('button','gap');g.onclick=()=>{if(G.lock)return;G.lock=1;const ok=i===q.ans;g.classList.add(ok?'ok':'bad');g.textContent=ok?q.mad:'';
-      if(!ok){gs[q.ans].classList.add('ok');gs[q.ans].textContent=q.mad}finishQ(ok)};
-    gs.push(g);row.appendChild(g);
-  });
-  A.appendChild(row);
-};
-function mk(W,H){const c=document.createElement('canvas');c.width=W;c.height=H;return c}
-function paintCell(ctx,W,H,N,i,t,dil){
-  const cw=W/N,cx=W-(i+.5)*cw;ctx.save();ctx.direction='rtl';ctx.textAlign='center';ctx.textBaseline='middle';
-  let fs=120;ctx.font=`700 ${fs}px "Noto Naskh Arabic","Amiri",serif`;
-  const m=ctx.measureText(t).width||1;fs=Math.min(fs*(cw*.8)/m,H*.5);
-  ctx.font=`700 ${fs}px "Noto Naskh Arabic","Amiri",serif`;
-  ctx.fillText(t,cx,H*.55);
-  if(dil){ctx.lineWidth=26;ctx.lineJoin='round';ctx.strokeText(t,cx,H*.55)}
-  ctx.restore();
-}
-/* ===== കൈയെഴുത്ത് പരിശോധന v2 ===== */
-const GS=32,ZW='‍',ZN='‌',MARKS_RE=/[ً-ْ]/g;
-function dil(g,r){const o=new Uint8Array(GS*GS);for(let y=0;y<GS;y++)for(let x=0;x<GS;x++)if(g[y*GS+x])for(let dy=-r;dy<=r;dy++)for(let dx=-r;dx<=r;dx++){const yy=y+dy,xx=x+dx;if(yy>=0&&yy<GS&&xx>=0&&xx<GS)o[yy*GS+xx]=1}return o}
-// ഒരു ഭാഗത്തെ (x0..x1) മഷിയെ അക്ഷരശരീരം (body) / ചെറിയ അടയാളങ്ങൾ (പുള്ളി, ഹറക്കത്ത്) എന്നിങ്ങനെ വേർതിരിക്കുന്നു
-function inkComps(data,W,H,x0,x1){
-  x0=Math.max(0,x0|0);x1=Math.min(W,x1|0);
-  const m=new Uint8Array(W*H),dl=new Uint8Array(W*H);let n=0,ax0=1e9,ay0=1e9,ax1=-1,ay1=-1;
-  for(let y=0;y<H;y++)for(let x=x0;x<x1;x++)if(data[(y*W+x)*4+3]>40){m[y*W+x]=1;n++;if(x<ax0)ax0=x;if(x>ax1)ax1=x;if(y<ay0)ay0=y;if(y>ay1)ay1=y}
-  if(n<30)return null;
-  const R=2;
-  for(let y=0;y<H;y++)for(let x=x0;x<x1;x++)if(m[y*W+x])for(let dy=-R;dy<=R;dy++){const yy=y+dy;if(yy<0||yy>=H)continue;for(let dx=-R;dx<=R;dx++){const xx=x+dx;if(xx>=x0&&xx<x1)dl[yy*W+xx]=1}}
-  const seen=new Uint8Array(W*H),comps=[];
-  for(let y=0;y<H;y++)for(let x=x0;x<x1;x++){
-    const p=y*W+x;if(!dl[p]||seen[p])continue;
-    const st=[p];seen[p]=1;const k={a:0,x0:1e9,x1:-1,y0:1e9,y1:-1,sy:0,px:[]};
-    while(st.length){const q=st.pop(),qy=(q/W)|0,qx=q-qy*W;
-      if(m[q]){k.a++;k.sy+=qy;k.px.push(q);if(qx<k.x0)k.x0=qx;if(qx>k.x1)k.x1=qx;if(qy<k.y0)k.y0=qy;if(qy>k.y1)k.y1=qy}
-      for(let dy=-1;dy<=1;dy++)for(let dx=-1;dx<=1;dx++){const nx=qx+dx,ny=qy+dy;if(nx<x0||nx>=x1||ny<0||ny>=H)continue;const k2=ny*W+nx;if(dl[k2]&&!seen[k2]){seen[k2]=1;st.push(k2)}}}
-    if(k.a)comps.push(k);
-  }
-  return{comps,W,H,big:Math.max(ax1-ax0+1,ay1-ay0+1)};
-}
-function shapeInfo(data,W,H,x0,x1){
-  const ic=inkComps(data,W,H,x0,x1);if(!ic)return null;
-  const{comps,big}=ic;
-  const ext=c=>Math.max(c.x1-c.x0+1,c.y1-c.y0+1);
-  const mx=comps.reduce((a,c)=>c.a>a.a?c:a,comps[0]);
-  let body=comps.filter(c=>c===mx||ext(c)>=.5*ext(mx)||c.a>=.35*mx.a);
-  const nm=comps.length-body.length;
-  let bx0=1e9,by0=1e9,bx1=-1,by1=-1;body.forEach(c=>{bx0=Math.min(bx0,c.x0);bx1=Math.max(bx1,c.x1);by0=Math.min(by0,c.y0);by1=Math.max(by1,c.y1)});
-  const bw=bx1-bx0+1,bh=by1-by0+1,g=new Uint8Array(GS*GS);let n=0;
-  body.forEach(c=>c.px.forEach(q=>{const y=(q/W)|0,x=q-y*W;g[Math.min(GS-1,((y-by0)*GS/bh)|0)*GS+Math.min(GS-1,((x-bx0)*GS/bw)|0)]=1;n++}));
-  return{g,n,asp:bw/bh,nm};
-}
-function shapeScore(u,t,dr=2){
-  if(!u||!t||u.n<30)return 0;
-  const r=u.asp/t.asp;if(r<.4||r>2.5)return 0;
-  const da=dil(u.g,dr),db=dil(t.g,dr);let ca=0,cb=0,cov=0,pre=0;
-  for(let i=0;i<GS*GS;i++){if(u.g[i]){ca++;if(db[i])pre++}if(t.g[i]){cb++;if(da[i])cov++}}
-  return Math.min(cov/cb,pre/ca);
-}
-// ടെംപ്ലേറ്റ് ചിത്രം: ഒരു ടെക്സ്റ്റ് (ഒറ്റ വാക്ക്/അക്ഷരം) ഒരു കള്ളിയിൽ വരച്ച് shapeInfo എടുക്കുന്നു
-const _tc={};
-function tmplInfo(txt){
-  if(_tc[txt])return _tc[txt];
-  const W=240,H=170,c=mk(W,H),x=c.getContext('2d');x.fillStyle='#000';paintCell(x,W,H,1,0,txt);
-  return _tc[txt]=shapeInfo(x.getImageData(0,0,W,H).data,W,H,0,W);
-}
-const stripH=t=>t.replace(MARKS_RE,'');
-try{document.fonts.addEventListener('loadingdone',()=>{for(const k in _tc)delete _tc[k]})}catch(e){}
-// ഒരു അക്ഷരം ഓരോ രൂപത്തിൽ: ഒറ്റയ്ക്ക് / തുടക്കം / നടുവ് / അവസാനം
-const FORMS={iso:[ZN,ZN],ini:[ZN,ZW],med:[ZW,ZW],fin:[ZW,ZN]};
-function formStr(parts,i,f){return parts.map((x,j)=>j===i?FORMS[f][0]+x+FORMS[f][1]:x).join('')}
-// രൂപങ്ങൾ തമ്മിൽ വ്യത്യാസമുള്ള ഭാഗം മാത്രം നോക്കുന്നു: കുട്ടി എഴുതിയത് ശരിയായ രൂപത്തിന്റെ ഭാഗത്താണോ, മറ്റേ (തെറ്റായ) രൂപത്തിന്റെ ഭാഗത്താണോ കൂടുതൽ?
-function diffScore(u,good,t,r){
-  const dg=dil(good.g,r),dt=dil(t.g,r),du=dil(u.g,r);let go=0,vo=0,gc=0,vc=0;
-  for(let i=0;i<GS*GS;i++){
-    if(good.g[i]&&!dt[i]){go++;if(du[i])gc++}
-    if(t.g[i]&&!dg[i]){vo++;if(du[i])vc++}
-  }
-  if(go<10||vo<10)return null;
-  return{a:gc/go,b:vc/vo};
-}
-function compete(u,good,others,th=.25){
-  const sg=shapeScore(u,good);let worst=-9,bk=null;
-  others.forEach(([k,t])=>{const d=diffScore(u,good,t,1);if(d&&d.b>.45&&d.b-d.a>worst){worst=d.b-d.a;bk=k}});
-  return{sg,bk:worst>th?bk:null};
-}
-function dedupe(good,list){return list.filter(([k,t])=>shapeScore(t,good)<.92)}
-
-// ലെവൽ 10: ഓരോ കള്ളിയിലും ഒറ്റയ്ക്കുള്ള രൂപം
-function checkIsolated(u,W,H,cells){
-  const N=cells.length;let why='';
-  for(let i=0;i<N;i++){
-    const x0=W-(i+1)*W/N,x1=W-i*W/N,gu=shapeInfo(u,W,H,x0,x1);
-    if(!gu||gu.n<60){return{ok:false,msg:'ഓരോ കള്ളിയിലും അക്ഷരം എഴുതണം'}}
-    const base=cells[i];
-    const iso=tmplInfo(base);
-    const others=dedupe(iso,['ini','med','fin'].map(f=>[f,tmplInfo(f==='ini'?base+ZW:f==='med'?ZW+base+ZW:ZW+base)]));
-    const r=compete(gu,iso,others,.4);
-    if(r.sg<.25)return{ok:false,msg:'ഒറ്റയ്ക്കുള്ള അക്ഷരരൂപം പൊരുത്തപ്പെടുന്നില്ല'};
-    if(r.bk)return{ok:false,msg:'ഇത് വാക്കിൽ ചേർന്നുവരുന്ന രൂപമാണ്; ഒറ്റയ്ക്ക് എഴുതുമ്പോഴുള്ള (ചേർക്കാത്ത) രൂപത്തിൽ എഴുതുക'};
-  }
-  return{ok:true,msg:''};
-}
-// ലെവൽ 9: ചേർത്തെഴുത്ത് – ചേരേണ്ടവ ചേർന്നോ, ഓരോ ഭാഗത്തും അക്ഷരരൂപം (തുടക്കം/നടുവ്/അവസാനം) ശരിയാണോ
-function checkJoined(u,W,H,cl,groups){
-  const ic=inkComps(u,W,H,0,W);if(!ic||ic.comps.reduce((a,c)=>a+c.a,0)<60)return{ok:false,msg:'വളരെ കുറച്ച് മാത്രമേ എഴുതിയുള്ളൂ'};
-  const bodyMin=.42*ic.big;
-  const cs=ic.comps.filter(c=>Math.max(c.x1-c.x0+1,c.y1-c.y0+1)>=bodyMin).sort((a,b)=>(b.x0+b.x1)-(a.x0+a.x1));
-  if(cs.length>groups.length)return{ok:false,msg:`ചേരേണ്ട അക്ഷരങ്ങൾ ചേർന്നിട്ടില്ല. ${groups.length} ഭാഗങ്ങളായി എഴുതിയാൽ മതി, നിങ്ങൾ ${cs.length} ഭാഗങ്ങളായാണ് എഴുതിയത്.`};
-  // ഗ്രൂപ്പുകളായി അക്ഷരങ്ങൾ
-  const gs=[];let k=0;groups.forEach(n=>{gs.push(cl.slice(k,k+n));k+=n});
-  const test=(userInfo,parts)=>{
-    const good=tmplInfo(parts.join(''));
-    let others=[];
-    parts.forEach((x,i)=>['iso','ini','med','fin'].forEach(f=>others.push([f+i,tmplInfo(formStr(parts,i,f))])));
-    others.push(['all',tmplInfo(parts.join(ZN))]);
-    others=dedupe(good,others);
-    const r=compete(userInfo,good,others);
-    if(r.sg<.3)return{ok:false,msg:'അക്ഷരങ്ങളുടെ രൂപം പൊരുത്തപ്പെടുന്നില്ല'};
-    if(r.bk){
-      const m=/^(iso|ini|med|fin)(\d+)?$/.exec(r.bk);
-      return{ok:false,msg:m&&m[2]!==undefined?`"${stripH(parts[+m[2]])[0]}" വാക്കിൽ ഈ സ്ഥാനത്ത് വരുമ്പോൾ അതിന്റെ രൂപം മാറും. ചേർന്നുവരുന്ന രൂപത്തിൽ എഴുതുക`:'അക്ഷരരൂപങ്ങൾ ചേർക്കുമ്പോൾ മാറും, ശരിയായ രൂപത്തിൽ ചേർത്ത് എഴുതുക'};
-    }
-    return{ok:true,msg:''};
+  /* ---------- harakat ---------- */
+  var VAR = {
+    a: { t: 'ഫത്ഹ്', ar: 'فَتْحَة' }, i: { t: 'കസ്ർ', ar: 'كَسْرَة' }, u: { t: 'ള്വമ്മ്', ar: 'ضَمَّة' }, s: { t: 'സുകൂൻ', ar: 'سُكُون' },
+    an: { t: 'ഇരട്ട ഫത്ഹ്', ar: 'تَنْوِين' }, 'in': { t: 'ഇരട്ട കസ്ർ', ar: 'تَنْوِين' }, un: { t: 'ഇരട്ട ള്വമ്മ്', ar: 'تَنْوِين' },
+    sa: { t: 'ശദ്ദ് + ഫത്ഹ്', ar: 'شَدَّة' }, si: { t: 'ശദ്ദ് + കസ്ർ', ar: 'شَدَّة' }, su: { t: 'ശദ്ദ് + ള്വമ്മ്', ar: 'شَدَّة' },
+    ma: { t: 'മദ്ദ് (ആ)', ar: 'مَدّ' }, mi: { t: 'മദ്ദ് (ഈ)', ar: 'مَدّ' }, mu: { t: 'മദ്ദ് (ഊ)', ar: 'مَدّ' }, m: { t: 'മദ്ദ്', ar: 'مَدّ' }
   };
-  // ആദ്യം മുഴുവൻ വാക്കും ഒന്നായി നോക്കുന്നു; ശരിയല്ലെങ്കിൽ ഭാഗം ഭാഗമായും നോക്കുന്നു (ഗ്യാപ്പിന്റെ നീളം കുട്ടികൾക്ക് മാറാം)
-  const whole=test(shapeInfo(u,W,H,0,W),cl);
-  if(whole.ok)return whole;
-  if(cs.length===groups.length&&groups.length>1){
-    let allOk=true;
-    for(let i=0;i<cs.length&&allOk;i++){
-      const c=cs[i];if(!test(shapeInfo(u,W,H,c.x0-3,c.x1+4),gs[i]).ok)allOk=false;
-    }
-    if(allOk)return{ok:true,msg:''};
-  }
-  return whole;
-}
+  var MARK = { a: 'َ', i: 'ِ', u: 'ُ', s: 'ْ', an: 'ً', 'in': 'ٍ', un: 'ٌ' };
+  var IDS = ['a', 'i', 'u', 's', 'an', 'in', 'un', 'sa', 'si', 'su', 'ma', 'mi', 'mu'];
+  var IDS_ALIF = ['a', 'i', 'u', 'an', 'in', 'un', 'm'];
+  function idsFor(L) { return L[0] === 'ا' ? IDS_ALIF : IDS; }
 
-R.draw=(q,A)=>{
-  const N=q.cells.length,W=Math.min(A.clientWidth||340,520),H=N===1?200:170;
-  const wrap=el('div','dwrap');wrap.style.cssText=`width:${W}px;height:${H}px`;
-  const gc=mk(W,H),dc=mk(W,H);wrap.append(gc,dc);A.appendChild(wrap);
-  const g=gc.getContext('2d'),d=dc.getContext('2d');
-  const ghost=(col,al)=>{g.clearRect(0,0,W,H);g.strokeStyle='rgba(255,255,255,.25)';g.setLineDash([6,6]);
-    for(let i=1;i<N;i++){g.beginPath();g.moveTo(W*i/N,10);g.lineTo(W*i/N,H-10);g.stroke()}g.setLineDash([]);
-    if(col){g.fillStyle=col;g.globalAlpha=al;q.cells.forEach((t,i)=>paintCell(g,W,H,N,i,t));g.globalAlpha=1}};
-  ghost();
-  let dr=false,lx=0,ly=0,any=false;
-  const pos=e=>{const r=dc.getBoundingClientRect();return[(e.clientX-r.left)*W/r.width,(e.clientY-r.top)*H/r.height]};
-  dc.onpointerdown=e=>{if(G.lock)return;dr=true;dc.setPointerCapture(e.pointerId);[lx,ly]=pos(e);d.fillStyle='#f5c542';d.beginPath();d.arc(lx,ly,5,0,7);d.fill();any=true};
-  dc.onpointermove=e=>{if(!dr)return;const[x,y]=pos(e);d.strokeStyle='#f5c542';d.lineWidth=10;d.lineCap='round';d.beginPath();d.moveTo(lx,ly);d.lineTo(x,y);d.stroke();lx=x;ly=y};
-  dc.onpointerup=dc.onpointercancel=()=>dr=false;
-  const acts=$('#acts');
-  const bc=el('button','btn');bc.textContent='🗑 മായ്ക്കുക';bc.onclick=()=>{if(G.lock)return;d.clearRect(0,0,W,H);any=false;wrap.classList.remove('bad','ok');ghost();const so=$('#selfok');if(so)so.remove()};
-  const bk=el('button','btn gold');bk.textContent='✔ പരിശോധിക്കുക';
-  bk.onclick=()=>{
-    if(G.lock)return;if(!any){toast('ആദ്യം എഴുതുക');return}G.lock=1;
-    const u=d.getImageData(0,0,W,H).data;let ok=true,why='';
-    const r=q.groups?checkJoined(u,W,H,q.cl,q.groups):checkIsolated(u,W,H,q.cells);ok=r.ok;why=r.msg;
-    if(!ok&&why)toast(why);
-    wrap.classList.add(ok?'ok':'bad');if(!ok)ghost('#22c55e',.6);
-    // മത്സരമല്ലാത്ത കളിയിൽ: തെറ്റ് വന്നാൽ വീണ്ടും ശ്രമിക്കാം, അല്ലെങ്കിൽ "ശരിയാണ്" എന്ന് ഉറപ്പിക്കാം
-    if(!ok&&(S.mode!=='comp'||G.practice)){
-      G.lock=0;
-      if(!$('#selfok')){const so=el('button','btn');so.id='selfok';so.textContent='✔ ഞാൻ ശരിയായി എഴുതി';
-        so.onclick=()=>{if(G.lock)return;G.lock=1;wrap.classList.remove('bad');wrap.classList.add('ok');so.remove();finishQ(true)};acts.appendChild(so)}
+  var NEEDS_LEAD = { s: 1, sa: 1, si: 1, su: 1 };
+  var LEAD = 'أَ';
+  // shadda and sukun cannot start a word, so a single letter gets a fathah-alif in front (bare = without it)
+  function arabicFor(L, v, bare) {
+    var c = L[0];
+    if (!bare && NEEDS_LEAD[v] && c !== 'ا') return LEAD + arabicFor(L, v, true);
+    if (c === 'ا') return { a: 'أَ', i: 'إِ', u: 'أُ', an: 'أً', 'in': 'إٍ', un: 'أٌ', m: 'آ' }[v];
+    switch (v) {
+      case 'sa': return c + 'َّ';
+      case 'si': return c + 'ِّ';
+      case 'su': return c + 'ُّ';
+      case 'ma': return c + 'َ' + 'ا';
+      case 'mi': return c + 'ِ' + 'ي';
+      case 'mu': return c + 'ُ' + 'و';
+      default: return c + MARK[v];
+    }
+  }
+  function soundFor(L, v, bare) {
+    var c = L[0], st = L[3];
+    if (!bare && NEEDS_LEAD[v] && c !== 'ا') return 'അ' + soundFor(L, v, true);
+    if (c === 'ا') return { a: 'അ', i: 'ഇ', u: 'ഉ', an: 'അൻ', 'in': 'ഇൻ', un: 'ഉൻ', m: 'ആ' }[v];
+    if (c === 'ع') return { a: 'അ', i: 'ഇ', u: 'ഉ', s: 'അ്', an: 'അൻ', 'in': 'ഇൻ', un: 'ഉൻ', sa: 'അഅ', si: 'ഇഇ', su: 'ഉഉ', ma: 'ആ', mi: 'ഈ', mu: 'ഊ' }[v];
+    var g = st.length > 1 ? st.charAt(0) + '്' + st : st + '്' + st;
+    switch (v) {
+      case 'a': return st;
+      case 'i': return st + 'ി';
+      case 'u': return st + 'ു';
+      case 's': return st + '്';
+      case 'an': return st + 'ൻ';
+      case 'in': return st + 'ിൻ';
+      case 'un': return st + 'ുൻ';
+      case 'sa': return g;
+      case 'si': return g + 'ി';
+      case 'su': return g + 'ു';
+      case 'ma': return st + 'ാ';
+      case 'mi': return st + 'ീ';
+      default: return st + 'ൂ';
+    }
+  }
+
+  /* ---------- words: [Arabic with harakat, Malayalam meaning, Malayalam reading] ---------- */
+  var WORDS = [
+    ['بَيْت', 'വീട്', 'ബൈത്'], ['كِتَاب', 'പുസ്തകം', 'കിതാബ്'], ['قَلَم', 'പേന', 'ഖലം'], ['مَاء', 'വെള്ളം', 'മാഅ്'],
+    ['شَمْس', 'സൂര്യൻ', 'ശംസ്'], ['قَمَر', 'ചന്ദ്രൻ', 'ഖമർ'], ['نَجْم', 'നക്ഷത്രം', 'നജ്മ്'], ['سَمَاء', 'ആകാശം', 'സമാഅ്'],
+    ['أَرْض', 'ഭൂമി', 'അർള്'], ['شَجَرَة', 'മരം', 'ശജറ'], ['وَرْدَة', 'റോസാപ്പൂവ്', 'വർദ'], ['زَهْرَة', 'പൂവ്', 'സഹ്റ'],
+    ['جَبَل', 'മല', 'ജബൽ'], ['بَحْر', 'കടൽ', 'ബഹ്ർ'], ['نَهْر', 'പുഴ', 'നഹ്ർ'], ['سَمَك', 'മീൻ', 'സമക്'],
+    ['أَسَد', 'സിംഹം', 'അസദ്'], ['فِيل', 'ആന', 'ഫീൽ'], ['قِطَّة', 'പൂച്ച', 'ഖിത്വ'], ['كَلْب', 'നായ', 'കൽബ്'],
+    ['حِصَان', 'കുതിര', 'ഹിസ്വാൻ'], ['جَمَل', 'ഒട്ടകം', 'ജമൽ'], ['بَقَرَة', 'പശു', 'ബഖറ'], ['طَيْر', 'പക്ഷി', 'ത്വൈർ'],
+    ['دَجَاجَة', 'കോഴി', 'ദജാജ'], ['فَرَاشَة', 'ചിത്രശലഭം', 'ഫറാശ'], ['تُفَّاح', 'ആപ്പിൾ', 'തുഫ്ഫാഹ്'], ['مَوْز', 'വാഴപ്പഴം', 'മൗസ്'],
+    ['عِنَب', 'മുന്തിരി', 'ഇനബ്'], ['بُرْتُقَال', 'ഓറഞ്ച്', 'ബുർതുഖാൽ'], ['خُبْز', 'റൊട്ടി', 'ഖുബ്സ്'], ['لَبَن', 'പാൽ', 'ലബൻ'],
+    ['عَسَل', 'തേൻ', 'അസൽ'], ['تَمْر', 'ഈത്തപ്പഴം', 'തംർ'], ['سَيَّارَة', 'കാർ', 'സയ്യാറ'], ['بَاب', 'വാതിൽ', 'ബാബ്'],
+    ['نَافِذَة', 'ജനൽ', 'നാഫിദ'], ['كُرْسِيّ', 'കസേര', 'കുർസിയ്യ്'], ['طَاوِلَة', 'മേശ', 'ത്വാവില'], ['مَدْرَسَة', 'സ്കൂൾ', 'മദ്റസ'],
+    ['مَسْجِد', 'പള്ളി', 'മസ്ജിദ്'], ['أُمّ', 'ഉമ്മ', 'ഉമ്മ്'], ['أَب', 'ഉപ്പ', 'അബ്'], ['أَخ', 'സഹോദരൻ', 'അഖ്'],
+    ['أُخْت', 'സഹോദരി', 'ഉഖ്ത്'], ['وَلَد', 'ആൺകുട്ടി', 'വലദ്'], ['بِنْت', 'പെൺകുട്ടി', 'ബിൻത്'], ['جَدّ', 'മുത്തച്ഛൻ', 'ജദ്ദ്'],
+    ['جَدَّة', 'മുത്തശ്ശി', 'ജദ്ദ'], ['يَد', 'കൈ', 'യദ്'], ['رِجْل', 'കാൽ', 'രിജ്ൽ'], ['عَيْن', 'കണ്ണ്', 'ഐൻ'],
+    ['أُذُن', 'ചെവി', 'ഉദുൻ'], ['أَنْف', 'മൂക്ക്', 'അൻഫ്'], ['فَم', 'വായ', 'ഫം'], ['سِنّ', 'പല്ല്', 'സിന്ന്'],
+    ['رَأْس', 'തല', 'റഅ്സ്'], ['قَلْب', 'ഹൃദയം', 'ഖൽബ്'], ['نُور', 'വെളിച്ചം', 'നൂർ'], ['لَيْل', 'രാത്രി', 'ലൈൽ'],
+    ['نَهَار', 'പകൽ', 'നഹാർ'], ['صَبَاح', 'പ്രഭാതം', 'സ്വബാഹ്'], ['مَطَر', 'മഴ', 'മത്വർ'], ['رِيح', 'കാറ്റ്', 'രീഹ്'],
+    ['ثَلْج', 'മഞ്ഞ്', 'സൽജ്'], ['نَار', 'തീ', 'നാർ'], ['ثَوْب', 'വസ്ത്രം', 'സൗബ്'], ['حِذَاء', 'ചെരിപ്പ്', 'ഹിദാഅ്'],
+    ['قُبَّعَة', 'തൊപ്പി', 'ഖുബ്ബഅ'], ['حَقِيبَة', 'ബാഗ്', 'ഹഖീബ'], ['سَاعَة', 'ക്ലോക്ക്', 'സാഅ'], ['دَرَّاجَة', 'സൈക്കിൾ', 'ദർറാജ'],
+    ['طَائِرَة', 'വിമാനം', 'ത്വാഇറ'], ['قِطَار', 'തീവണ്ടി', 'ഖിത്വാർ'], ['سَفِينَة', 'കപ്പൽ', 'സഫീന'], ['هَاتِف', 'ഫോൺ', 'ഹാതിഫ്'],
+    ['زَيْت', 'എണ്ണ', 'സൈത്'], ['مِلْح', 'ഉപ്പ്', 'മിൽഹ്'], ['سُكَّر', 'പഞ്ചസാര', 'സുക്കർ'], ['شَاي', 'ചായ', 'ശായ്'],
+    ['قَهْوَة', 'കാപ്പി', 'ഖഹ്‌വ'], ['رَجُل', 'പുരുഷൻ', 'റജുൽ'], ['مُعَلِّم', 'അധ്യാപകൻ', 'മുഅല്ലിം'], ['طَالِب', 'വിദ്യാർത്ഥി', 'ത്വാലിബ്'],
+    ['صَدِيق', 'കൂട്ടുകാരൻ', 'സ്വദീഖ്'], ['سَلَام', 'സമാധാനം', 'സലാം'], ['شُكْرًا', 'നന്ദി', 'ശുക്റൻ'], ['حُبّ', 'സ്നേഹം', 'ഹുബ്ബ്'],
+    ['فَرَح', 'സന്തോഷം', 'ഫറഹ്'], ['كَبِير', 'വലിയ', 'കബീർ'], ['صَغِير', 'ചെറിയ', 'സ്വഗീർ'], ['جَمِيل', 'സുന്ദരം', 'ജമീൽ'],
+    ['طَوِيل', 'നീളമുള്ള', 'ത്വവീൽ'], ['قَصِير', 'ഉയരം കുറഞ്ഞ', 'ഖസ്വീർ'], ['أَحْمَر', 'ചുവപ്പ്', 'അഹ്മർ'], ['أَزْرَق', 'നീല', 'അസ്റഖ്'],
+    ['أَخْضَر', 'പച്ച', 'അഖ്ദ്വർ'], ['أَصْفَر', 'മഞ്ഞ നിറം', 'അസ്ഫർ'], ['أَبْيَض', 'വെള്ള നിറം', 'അബ്യദ്വ്'], ['أَسْوَد', 'കറുപ്പ്', 'അസ്‌വദ്'],
+    ['وَاحِد', 'ഒന്ന്', 'വാഹിദ്'], ['اثْنَان', 'രണ്ട്', 'ഇസ്‌നാൻ'], ['ثَلَاثَة', 'മൂന്ന്', 'സലാസ'], ['أَرْبَعَة', 'നാല്', 'അർബഅ'],
+    ['خَمْسَة', 'അഞ്ച്', 'ഖംസ'], ['سِتَّة', 'ആറ്', 'സിത്ത'], ['سَبْعَة', 'ഏഴ്', 'സബ്അ'], ['ثَمَانِيَة', 'എട്ട്', 'സമാനിയ'],
+    ['تِسْعَة', 'ഒമ്പത്', 'തിസ്അ'], ['عَشَرَة', 'പത്ത്', 'അശറ'], ['دُبّ', 'കരടി', 'ദുബ്ബ്'], ['ذِئْب', 'ചെന്നായ', 'ദിഅ്ബ്'],
+    ['ثَعْلَب', 'കുറുക്കൻ', 'സഅ്ലബ്'], ['غُرَاب', 'കാക്ക', 'ഗുറാബ്'], ['ضِفْدَع', 'തവള', 'ദ്വിഫ്ദഅ്'], ['ظَبْي', 'മാൻ', 'ള്വബ്യ്'],
+    ['غَيْمَة', 'മേഘം', 'ഗൈമ'], ['ذَهَب', 'സ്വർണ്ണം', 'ദഹബ്'], ['فِضَّة', 'വെള്ളി', 'ഫിദ്വ്വ'], ['خَاتَم', 'മോതിരം', 'ഖാതം'],
+    ['زُجَاجَة', 'കുപ്പി', 'സുജാജ'], ['صَابُون', 'സോപ്പ്', 'സ്വാബൂൻ'], ['ضَيْف', 'അതിഥി', 'ദ്വൈഫ്'], ['ظِلّ', 'നിഴൽ', 'ള്വിൽ'],
+    ['ثُعْبَان', 'പാമ്പ്', 'സുഅ്ബാൻ'], ['زَرَافَة', 'ജിറാഫ്', 'സറാഫ'], ['خَرُوف', 'ആട്', 'ഖറൂഫ്'], ['حِمَار', 'കഴുത', 'ഹിമാർ'],
+    ['نَمْلَة', 'ഉറുമ്പ്', 'നംല'], ['نَحْلَة', 'തേനീച്ച', 'നഹ്ല'], ['عُصْفُور', 'കുരുവി', 'ഉസ്വ്ഫൂർ'], ['بَطَّة', 'താറാവ്', 'ബത്വ്വ'],
+    ['حُوت', 'തിമിംഗലം', 'ഹൂത്'], ['سُلَحْفَاة', 'ആമ', 'സുലഹ്ഫാത്'], ['خَيْمَة', 'കൂടാരം', 'ഖൈമ'], ['سَرِير', 'കട്ടിൽ', 'സരീർ'],
+    ['مِفْتَاح', 'താക്കോൽ', 'മിഫ്താഹ്'], ['مِصْبَاح', 'വിളക്ക്', 'മിസ്ബാഹ്'], ['صُورَة', 'ചിത്രം', 'സ്വൂറ']
+  ];
+
+  function norm(ch) {
+    switch (ch) {
+      case 'أ': case 'إ': case 'آ': case 'ٱ': case 'ء': return 'ا';
+      case 'ؤ': return 'و';
+      case 'ئ': case 'ى': return 'ي';
+      case 'ة': return 'ه';
+      default: return ch;
+    }
+  }
+  var MARK_RE = /[ً-ْٰـ]/;
+  function baseLetters(s) {
+    var out = [];
+    for (var i = 0; i < s.length; i++) { var ch = s.charAt(i); if (!MARK_RE.test(ch)) out.push(norm(ch)); }
+    return out;
+  }
+
+  /* ---------- state ---------- */
+  var S = { mode: 1, sel: ['ب'] };
+  var D = null;      // current deck
+  var idx = 0;
+  var anim = false;
+
+  function shuffle(a) {
+    a = a.slice();
+    for (var i = a.length - 1; i > 0; i--) { var j = Math.floor(Math.random() * (i + 1)); var t = a[i]; a[i] = a[j]; a[j] = t; }
+    return a;
+  }
+
+  var SHOW = { a: 'َ', i: 'ِ', u: 'ُ', s: 'ْ', an: 'ً', 'in': 'ٍ', un: 'ٌ', sa: 'َّ', si: 'ِّ', su: 'ُّ', ma: 'َ', mi: 'ِ', mu: 'ُ', m: 'ٓ' };
+  function letterPage(L, v) {
+    var ar = arabicFor(L, v);
+    return { kind: 'letter', ar: ar, ml: soundFor(L, v), title: VAR[v].t, sub: VAR[v].ar, mk: SHOW[v], nm: L[2] + ' · ' + L[1], speak: ar, vid: v, hl: NEEDS_LEAD[v] ? [L[0]] : undefined, lead: !!NEEDS_LEAD[v] };
+  }
+  function infoPage(title, text) { return { kind: 'info', title: title, text: text }; }
+
+  function buildDeck() {
+    idx = 0;
+    var s = S.sel;
+    if (S.mode === 1 && s.length === 1) {
+      D = { inf: true, L: letterOf(s[0]), deck: [], bag: [], last: null };
+    } else if (S.mode === 2 && s.length === 2) {
+      var A = letterOf(s[0]), B = letterOf(s[1]);
+      var fin = [];
+      ['a', 'i', 'u'].forEach(function (v) {
+        var ar = arabicFor(A, v) + arabicFor(B, v);
+        fin.push({ kind: 'syl', ar: ar, ml: soundFor(A, v) + soundFor(B, v), title: 'ചേർത്ത് വായിക്കാം', sub: VAR[v].t, speak: ar, hl: [A[0], B[0]] });
+      });
+      var found = [];
+      WORDS.forEach(function (w) {
+        var L = baseLetters(w[0]);
+        var ia = L.indexOf(s[0]), ib = L.indexOf(s[1]);
+        if (ia >= 0 && ib >= 0) found.push({ w: w, ord: ia < ib ? 0 : 1, len: L.length });
+      });
+      found.sort(function (x, y) { return x.ord - y.ord || x.len - y.len; });
+      found.forEach(function (f) {
+        fin.push({ kind: 'word', ar: f.w[0], mean: f.w[1], ml: f.w[2], title: 'വാക്ക്', speak: f.w[0], hl: [s[0], s[1]] });
+      });
+      if (!found.length) fin.push(infoPage('വാക്ക് കിട്ടിയില്ല', 'ഈ രണ്ട് അക്ഷരങ്ങൾ ചേർന്ന വാക്ക് പട്ടികയിൽ ഇല്ല. മറ്റൊരു ജോടി തൊട്ടുനോക്കൂ.'));
+      D = { inf: false, fin: fin };
+    } else if (S.mode === 2 && s.length === 1) {
+      D = { inf: false, fin: [infoPage('ഒരു അക്ഷരം കൂടി', 'മുകളിൽ നിന്ന് രണ്ടാമത്തെ അക്ഷരം തൊടൂ.')] };
+    } else {
+      D = { inf: false, fin: [infoPage('അക്ഷരം തിരഞ്ഞെടുക്കൂ', 'മുകളിലെ അക്ഷരങ്ങളിൽ ഒന്ന് തൊടൂ.')] };
+    }
+  }
+  function nextVariant() {
+    if (!D.bag.length) {
+      D.bag = shuffle(idsFor(D.L));
+      if (D.bag.length > 1 && D.bag[D.bag.length - 1] === D.last) { var t = D.bag[0]; D.bag[0] = D.bag[D.bag.length - 1]; D.bag[D.bag.length - 1] = t; }
+    }
+    D.last = D.bag.pop();
+    return D.last;
+  }
+  function pageAt(i) {
+    if (D.inf) {
+      while (D.deck.length <= i) D.deck.push(letterPage(D.L, nextVariant()));
+      return D.deck[i];
+    }
+    var n = D.fin.length;
+    return D.fin[((i % n) + n) % n];
+  }
+  function canGo(dir) {
+    if (D.inf) return dir === 'next' || idx > 0;
+    return D.fin.length > 1;
+  }
+
+  /* ---------- rendering a page ---------- */
+  // A letter and its marks always stay in one piece, so the browser can place the marks correctly.
+  function fillArabic(box, text, hl) {
+    var i = 0;
+    while (i < text.length) {
+      var ch = text.charAt(i), j = i + 1;
+      var isBase = !MARK_RE.test(ch);
+      if (isBase) { while (j < text.length && MARK_RE.test(text.charAt(j))) j++; }
+      var piece = text.slice(i, j);
+      if (isBase && hl && hl.indexOf(norm(ch)) >= 0) box.appendChild(el('span', 'hl', piece));
+      else box.appendChild(document.createTextNode(piece));
+      i = j;
+    }
+  }
+  function fontSize(p) {
+    var book = $('#book');
+    var w = book.clientWidth || 340, h = book.clientHeight || 360;
+    var n = Math.max(1, baseLetters(p.ar).length);
+    var reserve = 190 + (p.mean ? 50 : 0) + (p.nm ? 22 : 0);
+    var fs = Math.floor((w - 70) / (n * 0.62));
+    fs = Math.min(fs, Math.floor((h - reserve) / 1.6), p.kind === 'letter' ? 230 : 150);
+    return Math.max(52, fs);
+  }
+  function renderPage(p) {
+    var d = el('div', 'pg');
+    if (p.kind === 'info') {
+      d.classList.add('info');
+      d.appendChild(el('div', 'arrow', '↑'));
+      d.appendChild(el('p', 'bigtxt', p.title));
+      d.appendChild(el('p', 'small', p.text));
+      return d;
+    }
+    var tags = el('div', 'tags');
+    tags.appendChild(el('span', 'chip', p.title));
+    if (p.mk) { var mb = el('span', 'mkbig', 'ـ' + p.mk); mb.setAttribute('lang', 'ar'); mb.setAttribute('aria-hidden', 'true'); tags.appendChild(mb); }
+    if (p.sub) { var sb = el('span', 'sub', p.sub); sb.setAttribute('lang', 'ar'); tags.appendChild(sb); }
+    d.appendChild(tags);
+    var ar = el('div', 'ar');
+    ar.setAttribute('lang', 'ar'); ar.setAttribute('dir', 'rtl');
+    ar.style.setProperty('--fs', fontSize(p) + 'px');
+    fillArabic(ar, p.ar, p.hl);
+    d.appendChild(ar);
+    if (p.mean) d.appendChild(el('div', 'mean', p.mean));
+    d.appendChild(el('div', 'snd', p.ml));
+    d.appendChild(el('div', 'lab', 'ഇങ്ങനെ വായിക്കാം (ഏകദേശ ഉച്ചാരണം)'));
+    if (p.nm) d.appendChild(el('div', 'nm', p.nm));
+    return d;
+  }
+
+  /* ---------- page flip ---------- */
+  var book = $('#book'), flip = $('#flip'), front = $('#front'), underBody = $('#underBody');
+  var shF = $('#shF'), shB = $('#shB'), shU = $('#shU');
+
+  function setAngle(a, animate) {
+    var tr = animate ? 'transform 420ms cubic-bezier(.3,.7,.25,1)' : 'none';
+    var tr2 = animate ? 'opacity 420ms ease' : 'none';
+    flip.style.transition = tr;
+    shF.style.transition = tr2; shB.style.transition = tr2; shU.style.transition = tr2;
+    flip.style.transform = 'rotateY(' + a + 'deg)';
+    var abs = Math.min(180, Math.abs(a));
+    shF.style.opacity = String(Math.sin(Math.min(abs, 90) * Math.PI / 180) * 0.45);
+    shB.style.opacity = String(Math.max(0, Math.sin((180 - abs) * Math.PI / 180)) * 0.35);
+    shU.style.opacity = String(0.3 * (1 - abs / 180));
+  }
+  function paint() {
+    front.replaceChildren(renderPage(pageAt(idx)));
+    underBody.replaceChildren(renderPage(pageAt(idx + 1)));
+    setAngle(0, false);
+    chrome();
+  }
+  function prepare(dir) {
+    if (dir === 'next') {
+      front.replaceChildren(renderPage(pageAt(idx)));
+      underBody.replaceChildren(renderPage(pageAt(idx + 1)));
+      setAngle(0, false);
+    } else {
+      front.replaceChildren(renderPage(pageAt(idx - 1)));
+      underBody.replaceChildren(renderPage(pageAt(idx)));
+      setAngle(-180, false);
+    }
+  }
+  function finish(dir, complete) {
+    anim = true;
+    var target = complete ? (dir === 'next' ? -180 : 0) : (dir === 'next' ? 0 : -180);
+    setAngle(target, true);
+    setTimeout(function () {
+      if (complete) idx += dir === 'next' ? 1 : -1;
+      paint();
+      anim = false;
+    }, 440);
+  }
+  function go(dir) {
+    if (anim || !canGo(dir)) return;
+    prepare(dir);
+    void flip.offsetWidth;
+    finish(dir, true);
+  }
+
+  var drag = null;
+  book.addEventListener('pointerdown', function (e) {
+    if (anim) return;
+    drag = { x: e.clientX, y: e.clientY, t: Date.now(), dir: null, on: false, p: 0, vert: false };
+    try { book.setPointerCapture(e.pointerId); } catch (err) { /* ignore */ }
+  });
+  book.addEventListener('pointermove', function (e) {
+    if (!drag || anim) return;
+    var dx = e.clientX - drag.x, dy = e.clientY - drag.y;
+    if (!drag.dir && !drag.vert) {
+      if (Math.abs(dx) > 10 && Math.abs(dx) > Math.abs(dy)) {
+        var dir = dx < 0 ? 'next' : 'prev';
+        if (!canGo(dir)) { drag = null; return; }
+        drag.dir = dir; drag.on = true; prepare(dir);
+      } else if (Math.abs(dy) > 14 && Math.abs(dy) > Math.abs(dx)) {
+        drag.vert = true;
+      }
+    }
+    if (drag && drag.on) {
+      var w = book.clientWidth * 0.9;
+      var p = drag.dir === 'next' ? Math.max(0, Math.min(1, -dx / w)) : Math.max(0, Math.min(1, dx / w));
+      drag.p = p;
+      setAngle(drag.dir === 'next' ? -180 * p : -180 * (1 - p), false);
+    }
+  });
+  function endDrag(e) {
+    if (!drag) return;
+    var d = drag; drag = null;
+    var dx = e.clientX - d.x, dy = e.clientY - d.y, dt = Math.max(1, Date.now() - d.t);
+    if (d.on) {
+      var v = Math.abs(dx) / dt;
+      finish(d.dir, d.p > 0.3 || v > 0.5);
+    } else if (d.vert && Math.abs(dy) > 50) {
+      go(dy < 0 ? 'next' : 'prev');
+    }
+  }
+  book.addEventListener('pointerup', endDrag);
+  book.addEventListener('pointercancel', function (e) { if (drag && drag.on) { var d = drag; drag = null; finish(d.dir, false); } else drag = null; });
+  var lastWheel = 0;
+  book.addEventListener('wheel', function (e) {
+    e.preventDefault();
+    var now = Date.now();
+    if (anim || now - lastWheel < 450) return;
+    lastWheel = now;
+    go((e.deltaY > 0 || e.deltaX > 0) ? 'next' : 'prev');
+  }, { passive: false });
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'ArrowRight' || e.key === 'ArrowDown') go('next');
+    else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') go('prev');
+  });
+  $('#next').addEventListener('click', function () { go('next'); });
+  $('#prev').addEventListener('click', function () { go('prev'); });
+
+  /* ---------- chrome: page number, dots, buttons ---------- */
+  function chrome() {
+    var p = pageAt(idx);
+    var info = p.kind === 'info';
+    $('#speak').hidden = info;
+    var n = D.inf ? 0 : D.fin.length;
+    var no = '';
+    if (!info) no = D.inf ? 'പേജ് ' + (idx + 1) : 'പേജ് ' + (((idx % n) + n) % n + 1) + ' / ' + n;
+    $('#pageNo').textContent = no;
+    var dots = $('#dots');
+    dots.textContent = '';
+    if (!D.inf && n > 1 && n <= 14) {
+      var cur = ((idx % n) + n) % n;
+      for (var i = 0; i < n; i++) dots.appendChild(el('i', i === cur ? 'on' : ''));
+    }
+    $('#prev').disabled = !canGo('prev');
+    $('#next').disabled = !canGo('next');
+    $('#hint').textContent = info ? '' : 'വിരൽ കൊണ്ട് വലിച്ച് പേജ് മറിക്കൂ';
+  }
+
+  /* ---------- letter strip and mode ---------- */
+  var strip = $('#strip');
+  LET.forEach(function (L) {
+    var b = el('button', 'k');
+    b.type = 'button';
+    b.setAttribute('data-c', L[0]);
+    b.setAttribute('aria-label', L[2]);
+    var c = el('span', 'kc', L[0]); c.setAttribute('lang', 'ar');
+    b.appendChild(c);
+    b.appendChild(el('span', 'kn', L[2]));
+    b.addEventListener('click', function () { pick(L[0]); });
+    strip.appendChild(b);
+  });
+  function pick(c) {
+    if (S.mode === 1 || S.mode === 3) S.sel = [c];
+    else if (S.sel.length === 1) S.sel = S.sel[0] === c ? [] : [S.sel[0], c];
+    else S.sel = [c];
+    refresh();
+  }
+  function tipText() {
+    if (S.mode === 3) return 'ഒരു അക്ഷരം തൊടൂ. ശബ്ദം കേട്ട് വിരൽ കൊണ്ട് എഴുതാം.';
+    if (S.mode === 1) return 'ഒരു അക്ഷരം തൊടൂ. ഓരോ പേജിലും വ്യത്യസ്ത ഹർക്കത്ത് വരും.';
+    if (S.sel.length === 0) return 'രണ്ട് അക്ഷരങ്ങൾ തൊടൂ.';
+    if (S.sel.length === 1) return 'ഒരു അക്ഷരം കൂടി തൊടൂ.';
+    return 'ഇവ ചേർന്ന വാക്കുകൾ കാണാം. പേജ് മറിക്കൂ.';
+  }
+  function refresh() {
+    Array.prototype.forEach.call(strip.children, function (b) {
+      var c = b.getAttribute('data-c');
+      var i = S.sel.indexOf(c);
+      b.setAttribute('aria-pressed', i >= 0 ? 'true' : 'false');
+      if (done[c]) b.setAttribute('data-done', '1'); else b.removeAttribute('data-done');
+      if (S.mode === 2 && i >= 0) b.setAttribute('data-o', String(i + 1)); else b.removeAttribute('data-o');
+    });
+    Array.prototype.forEach.call(document.querySelectorAll('[data-mode]'), function (b) {
+      b.setAttribute('aria-pressed', String(b.getAttribute('data-mode')) === String(S.mode) ? 'true' : 'false');
+    });
+    $('#tip').textContent = tipText();
+    if (S.mode === 3) {
+      practiceView(true);
+      if (S.sel.length === 1) startPractice(S.sel[0]); else practiceIdle();
       return;
     }
-    finishQ(ok);
-  };
-  acts.append(bc,bk);
-};
-
-let AC=null;
-function ac(){try{AC=AC||new(window.AudioContext||window.webkitAudioContext)();if(AC.state==='suspended')AC.resume()}catch(e){}return AC}
-['pointerdown','touchstart','keydown'].forEach(ev=>addEventListener(ev,()=>ac(),{passive:true}));
-function winSound(){const a=ac();if(!a)return;const t0=a.currentTime+.02;
-  [[523.25,0],[659.25,.12],[783.99,.24],[1046.5,.38],[1046.5,.58],[1318.5,.58],[1568,.58]].forEach(([f,d],i)=>{
-    const o=a.createOscillator(),g=a.createGain();o.type=i>2?'triangle':'sine';o.frequency.value=f;
-    g.gain.setValueAtTime(0,t0+d);g.gain.linearRampToValueAtTime(.22,t0+d+.02);g.gain.exponentialRampToValueAtTime(.001,t0+d+(d>.5?1.1:.45));
-    o.connect(g);g.connect(a.destination);o.start(t0+d);o.stop(t0+d+1.2)})}
-let fxRaf=0;
-function confetti(ms){
-  const c=$('#fx'),x=c.getContext('2d');c.width=innerWidth;c.height=innerHeight;
-  const cols=['#ffd166','#ff5a5f','#2ecc71','#4cc9f0','#b388ff','#ff9f1c','#ffffff'],W=c.width,H=c.height,P2=[];
-  for(let i=0;i<120;i++){const an=-Math.PI/2+(Math.random()-.5)*2.4,sp=6+Math.random()*10;
-    P2.push({x:W/2,y:H*.4,vx:Math.cos(an)*sp,vy:Math.sin(an)*sp,s:5+Math.random()*7,r:Math.random()*6,vr:(Math.random()-.5)*.4,c:cols[i%cols.length]})}
-  const t0=performance.now();cancelAnimationFrame(fxRaf);
-  const f=t=>{const e=t-t0;x.clearRect(0,0,W,H);
-    P2.forEach(p=>{p.vy+=.28;p.vx*=.995;p.x+=p.vx;p.y+=p.vy;p.r+=p.vr;x.save();x.translate(p.x,p.y);x.rotate(p.r);x.fillStyle=p.c;x.globalAlpha=Math.max(0,1-e/ms);x.fillRect(-p.s/2,-p.s/4,p.s,p.s/2);x.restore()});
-    if(e<ms)fxRaf=requestAnimationFrame(f);else x.clearRect(0,0,W,H)};
-  fxRaf=requestAnimationFrame(f);
-}
-function celebrate(then){
-  const m=$('#mum');m.classList.add('on');winSound();confetti(2600);
-  setTimeout(()=>say('مُمْتَاز',1),700);
-  let done=false;const end=()=>{if(done)return;done=true;m.classList.remove('on');cancelAnimationFrame(fxRaf);$('#fx').getContext('2d').clearRect(0,0,9999,9999);stopSay();then()};
-  m.onclick=end;setTimeout(end,2800);
-}
-function levelDone(){
-  stopSay();addTime();const n=G.n,practice=G.practice;
-  if(!practice){if(!P.done.includes(n))P.done.push(n);if(P.level===n)P.level=n+1;P.ls={streak:0,correct:0};save();if(n<11)pushBoard(false)}
-  celebrate(async()=>{
-    if(n===11&&!practice){await pushBoard(true);finalize();return}
-    modal(`<h2>🎉 ലെവൽ ${n} പൂർത്തിയായി!</h2><p>${esc(LV[n].t)}</p><p>⭐ ${P.points} പോയിന്റ്${S.mode==='comp'?' · ⏱ '+fmt(P.time):''}</p>`,
-      practice?[['ലെവൽ മാപ്പ്',()=>{G=null;renderHome()}]]:[['അടുത്ത ലെവൽ ▶',()=>startLevel(n+1,false),'gold'],['മാപ്പ്',()=>{G=null;renderHome()}]]);
+    practiceView(false);
+    buildDeck();
+    paint();
+    var sb = strip.querySelector('[data-c="' + S.sel[S.sel.length - 1] + '"]');
+    if (sb && sb.scrollIntoView) { try { sb.scrollIntoView({ block: 'nearest', inline: 'nearest' }); } catch (e) { /* ignore */ } }
+  }
+  Array.prototype.forEach.call(document.querySelectorAll('[data-mode]'), function (b) {
+    b.addEventListener('click', function () {
+      S.mode = Number(b.getAttribute('data-mode'));
+      S.sel = S.sel.slice(0, 1);
+      refresh();
+    });
   });
-}
-async function finalize(){
-  if(S.mode==='comp'){const b=sortB(await dbGet(S.code));const r=b.findIndex(x=>x.name.toLowerCase()===S.name.toLowerCase());P.rank=r>=0?r+1:null;save()}
-  G=null;showDone();
-}
 
-/* ================= CERTIFICATE ================= */
-const rankTxt=r=>r?(['','First Rank','Second Rank','Third Rank'][r]||r+'th Rank'):'';
-function showDone(){
-  $('#certName').value=S.name||'';
-  $('#hideWrap').style.display=S.mode==='comp'?'flex':'none';
-  show('fin');drawCert();
-}
-$('#certName').oninput=drawCert;$('#hideRank').onchange=drawCert;
-function drawCert(){
-  const c=$('#cert'),W=1200,H=850;c.width=W;c.height=H;const x=c.getContext('2d');
-  const name=$('#certName').value.trim()||'Your Name';
-  const g=x.createLinearGradient(0,0,W,H);g.addColorStop(0,'#fffdf2');g.addColorStop(1,'#fdf0c8');x.fillStyle=g;x.fillRect(0,0,W,H);
-  x.strokeStyle='#0f5a5c';x.lineWidth=14;x.strokeRect(30,30,W-60,H-60);x.strokeStyle='#d9a21b';x.lineWidth=4;x.strokeRect(54,54,W-108,H-108);
-  x.textAlign='center';x.fillStyle='#0f5a5c';
-  x.font='800 74px "Noto Sans Malayalam",serif';x.fillText('Certificate of Completion',W/2,190);
-  x.font='500 34px "Noto Sans Malayalam",sans-serif';x.fillStyle='#555';x.fillText('This is to certify that',W/2,270);
-  x.fillStyle='#b8820a';let fs=96;x.font=`800 ${fs}px "Noto Sans Malayalam",serif`;while(x.measureText(name).width>W-260&&fs>30){fs-=4;x.font=`800 ${fs}px "Noto Sans Malayalam",serif`}
-  x.fillText(name,W/2,400);x.fillRect(220,425,W-440,3);
-  x.fillStyle='#333';x.font='500 36px "Noto Sans Malayalam",sans-serif';
-  x.fillText('has successfully completed all 11 levels of',W/2,500);
-  x.font='800 44px "Noto Sans Malayalam",sans-serif';x.fillStyle='#0f5a5c';x.fillText('CV – Arabic Learning Game',W/2,565);
-  x.font='600 36px "Noto Sans Malayalam",sans-serif';x.fillStyle='#333';
-  x.fillText(`Points: ${P.points}`+(S.mode==='comp'?`   |   Time: ${fmt(P.time)}`:''),W/2,640);
-  if(S.mode==='comp'&&P.rank&&!$('#hideRank').checked){x.font='800 52px "Noto Sans Malayalam",sans-serif';x.fillStyle='#b8820a';x.fillText('🏆 '+rankTxt(P.rank),W/2,720)}
-  x.font='400 26px "Noto Sans Malayalam",sans-serif';x.fillStyle='#777';x.fillText(new Date().toLocaleDateString('en-GB'),W/2,775);
-}
-function certBlob(){return new Promise(r=>$('#cert').toBlob(r,'image/png'))}
-$('#dl').onclick=async()=>{const b=await certBlob(),a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='CV-Certificate.png';a.click()};
-$('#wa').onclick=async()=>{
-  const name=$('#certName').value.trim()||'ഞാൻ';
-  const rk=(S.mode==='comp'&&P.rank&&!$('#hideRank').checked)?` · ${rankTxt(P.rank)}`:'';
-  const text=`🏆 ${name} "CV – അറബി പഠന ഗെയിം" പൂർത്തിയാക്കി!\n⭐ പോയിന്റ്: ${P.points}${rk}`;
-  try{const b=await certBlob(),f=new File([b],'CV-Certificate.png',{type:'image/png'});
-    if(navigator.canShare&&navigator.canShare({files:[f]})){await navigator.share({files:[f],text});return}}catch(e){if(e&&e.name==='AbortError')return}
-  window.open('https://wa.me/?text='+encodeURIComponent(text),'_blank');
-};
+  /* ---------- voice ---------- */
+  var synth = window.speechSynthesis;
+  var toastTimer = null;
+  function toast(msg) {
+    var t = $('#toast');
+    t.textContent = msg; t.hidden = false;
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(function () { t.hidden = true; }, 4200);
+  }
+  function arabicVoice() {
+    var vs = synth.getVoices() || [];
+    for (var i = 0; i < vs.length; i++) if (/^ar/i.test(vs[i].lang)) return vs[i];
+    return null;
+  }
+  function speak(text) {
+    if (!synth || typeof SpeechSynthesisUtterance === 'undefined') { toast('ഈ ബ്രൗസറിൽ ശബ്ദം ലഭ്യമല്ല. Chrome ഉപയോഗിച്ച് നോക്കൂ.'); return; }
+    synth.cancel();
+    var u = new SpeechSynthesisUtterance(text);
+    var v = arabicVoice();
+    if (v) { u.voice = v; u.lang = v.lang; } else { u.lang = 'ar-SA'; }
+    u.rate = 0.65;
+    var btn = $('#speak');
+    u.onstart = function () { btn.classList.add('on'); };
+    u.onend = function () { btn.classList.remove('on'); };
+    u.onerror = function (e) {
+      btn.classList.remove('on');
+      if (e && e.error && e.error !== 'interrupted' && e.error !== 'canceled') toast('ഈ ഫോണിൽ അറബി ശബ്ദം കിട്ടുന്നില്ല. ഫോൺ സെറ്റിങ്സിൽ Text-to-speech ൽ Arabic ഡൗൺലോഡ് ചെയ്യുക.');
+    };
+    synth.speak(u);
+    if (!v) setTimeout(function () { if (synth && !synth.speaking && !btn.classList.contains('on')) toast('അറബി ശബ്ദം കേൾക്കുന്നില്ലെങ്കിൽ ഫോൺ സെറ്റിങ്സിൽ Text-to-speech ൽ Arabic ഡൗൺലോഡ് ചെയ്യുക.'); }, 1500);
+  }
+  if (synth) { try { synth.getVoices(); } catch (e) { /* ignore */ } }
+  $('#speak').addEventListener('click', function () {
+    if (S.mode === 3) { if (P && P.speakText) speak(P.speakText); return; }
+    var p = pageAt(idx);
+    if (p && p.speak) speak(p.speak);
+  });
 
-/* ================= INIT ================= */
-try{const l=JSON.parse(localStorage.getItem('cv_last')||'null');if(l){S=l;if(l.mode==='comp'){$('#code').value=l.code;$('#pname').value=l.name}}}catch(e){}
-loadP();renderHome();
+  /* ---------- writing practice ---------- */
+  var STACK = '"Scheherazade New","Noto Naskh Arabic","Amiri","Geeza Pro","Traditional Arabic",serif';
+  var NN = 80;
+  var DONE_KEY = 'arabicBook.done';
+  var done = {};
+  try { done = JSON.parse(localStorage.getItem(DONE_KEY) || '{}') || {}; } catch (e) { done = {}; }
+  function saveDone() { try { localStorage.setItem(DONE_KEY, JSON.stringify(done)); } catch (e) { /* ignore */ } }
+  var SIMPLE = ['a', 'i', 'u', 's', 'an', 'in', 'un', 'sa', 'si', 'su'];
+  var SIMPLE_ALIF = ['a', 'i', 'u', 'an', 'in', 'un'];
+  var NONJOIN = 'ادذرزو';
+  var ZWJ = '‍';
+  var TH = { 1: { tc: 4.5, tp: 5.5, cv: 0.62, pr: 0.62 }, 2: { tc: 6.5, tp: 7.5, cv: 0.5, pr: 0.5 } };
+  var WHY = {
+    empty: 'ആദ്യം വിരൽ കൊണ്ട് വരയ്ക്കൂ.',
+    tiny: 'കുറച്ചുകൂടി വലുതായി വരയ്ക്കൂ.',
+    dots: 'കുത്തുകളോ ഹർക്കത്തോ ഇടാൻ മറക്കരുത്.',
+    cov: 'അക്ഷരം മുഴുവൻ വരയ്ക്കൂ.',
+    prec: 'അക്ഷരത്തിന്റെ ആകൃതി നോക്കി വരയ്ക്കൂ.',
+    stray: 'വേണ്ടാത്ത വരകൾ ഒഴിവാക്കൂ.',
+    form: 'തെറ്റായ രൂപം.'
+  };
+  var LV = {
+    1: { name: 'വരയ്ക്കാം', pmt: 'ശബ്ദം കേൾക്കൂ. വരയ്ക്ക് മുകളിലൂടെ വിരൽ കൊണ്ട് വരയ്ക്കൂ.' },
+    2: { name: 'കേട്ട് എഴുതാം', pmt: 'ശബ്ദം കേട്ട് ആ അക്ഷരം ഹർക്കത്തോടെ എഴുതൂ.' },
+    3: { name: 'അക്ഷരങ്ങൾ വേർതിരിക്കാം', pmt: 'വാക്ക് കേൾക്കൂ. ഓരോ അക്ഷരവും വാക്കിൽ നിന്ന് വേർപെടുത്തി, തനിച്ചുള്ള (ഒറ്റ) രൂപത്തിൽ ഓരോ പെട്ടിയിൽ എഴുതൂ (വലത്ത് നിന്ന് ഇടത്തോട്ട്). കൂട്ടക്ഷര രൂപത്തിൽ എഴുതിയാൽ ലെവൽ വീണ്ടും തുടങ്ങും.' },
+    4: { name: 'ചേർത്ത് എഴുതാം', pmt: 'അക്ഷരങ്ങൾ ചേർത്ത് ഒരു വാക്കായി എഴുതൂ. ഓരോ അക്ഷരത്തിനും വാക്കിലെ സ്ഥാനത്തിനനുസരിച്ചുള്ള രൂപം വേണം. ഒറ്റ രൂപത്തിൽ എഴുതിയാൽ ലെവൽ വീണ്ടും തുടങ്ങും.' }
+  };
+  var PRAC = $('#prac'), PIN_ = $('#pracin');
+  var P = null;
+  var fontsP = null;
 
-/* ================= INSTALL (PWA) ================= */
-let deferredInstall=null;
-window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();deferredInstall=e;$('#install').hidden=false});
-$('#install').onclick=async()=>{if(!deferredInstall)return;deferredInstall.prompt();try{await deferredInstall.userChoice}catch(e){}deferredInstall=null;$('#install').hidden=true};
-window.addEventListener('appinstalled',()=>{$('#install').hidden=true});
-if('serviceWorker' in navigator)window.addEventListener('load',()=>{navigator.serviceWorker.register('sw.js').catch(()=>{})});
+  function fontsReady() {
+    if (!fontsP) {
+      fontsP = new Promise(function (res) {
+        var t = setTimeout(res, 1800);
+        try { document.fonts.load('80px "Scheherazade New"', 'بَ').then(function () { clearTimeout(t); res(); }, function () { clearTimeout(t); res(); }); }
+        catch (e) { clearTimeout(t); res(); }
+      });
+    }
+    return fontsP;
+  }
+
+  function bboxOf(c, W, H) {
+    var d = c.getImageData(0, 0, W, H).data, x0 = W, y0 = H, x1 = -1, y1 = -1, x, y;
+    for (y = 0; y < H; y++) for (x = 0; x < W; x++) {
+      if (d[(y * W + x) * 4 + 3] > 40) { if (x < x0) x0 = x; if (x > x1) x1 = x; if (y < y0) y0 = y; if (y > y1) y1 = y; }
+    }
+    return x1 < 0 ? null : { x: x0, y: y0, w: x1 - x0 + 1, h: y1 - y0 + 1 };
+  }
+  // the glyph is drawn centred and as large as the pad allows
+  function glyphCanvas(text, W, H, frac) {
+    var cv = document.createElement('canvas'); cv.width = W; cv.height = H;
+    var c = cv.getContext('2d', { willReadFrequently: true });
+    function draw(size, ox, oy) {
+      c.clearRect(0, 0, W, H); c.font = size + 'px ' + STACK; c.fillStyle = '#000'; c.textAlign = 'center'; c.textBaseline = 'alphabetic';
+      try { c.direction = 'rtl'; } catch (e) { /* ignore */ }
+      c.fillText(text, W / 2 + ox, H * 0.6 + oy);
+    }
+    var size = Math.floor(Math.min(W, H) * 0.6);
+    draw(size, 0, 0);
+    var bb = bboxOf(c, W, H);
+    if (!bb) return { cv: cv, size: size, ox: 0, oy: 0 };
+    var s = Math.min(W * frac / bb.w, H * frac / bb.h);
+    size = Math.max(12, Math.floor(size * s));
+    draw(size, 0, 0); bb = bboxOf(c, W, H);
+    if (!bb) return { cv: cv, size: size, ox: 0, oy: 0 };
+    var ox = W / 2 - (bb.x + bb.w / 2), oy = H / 2 - (bb.y + bb.h / 2);
+    draw(size, ox, oy);
+    return { cv: cv, size: size, ox: ox, oy: oy };
+  }
+  function maskOf(src, W, H) {
+    var t = document.createElement('canvas'); t.width = NN; t.height = NN;
+    var c = t.getContext('2d', { willReadFrequently: true });
+    c.drawImage(src, 0, 0, W, H, 0, 0, NN, NN);
+    var d = c.getImageData(0, 0, NN, NN).data, m = new Uint8Array(NN * NN);
+    for (var i = 0; i < NN * NN; i++) m[i] = d[i * 4 + 3] > 50 ? 1 : 0;
+    return m;
+  }
+  function dtOf(mask) {
+    var n = NN, d = new Float32Array(n * n), INF = 1e6, i, x, y, v;
+    for (i = 0; i < n * n; i++) d[i] = mask[i] ? 0 : INF;
+    for (y = 0; y < n; y++) for (x = 0; x < n; x++) {
+      i = y * n + x; v = d[i];
+      if (x > 0 && d[i - 1] + 1 < v) v = d[i - 1] + 1;
+      if (y > 0) {
+        if (d[i - n] + 1 < v) v = d[i - n] + 1;
+        if (x > 0 && d[i - n - 1] + 1.414 < v) v = d[i - n - 1] + 1.414;
+        if (x < n - 1 && d[i - n + 1] + 1.414 < v) v = d[i - n + 1] + 1.414;
+      }
+      d[i] = v;
+    }
+    for (y = n - 1; y >= 0; y--) for (x = n - 1; x >= 0; x--) {
+      i = y * n + x; v = d[i];
+      if (x < n - 1 && d[i + 1] + 1 < v) v = d[i + 1] + 1;
+      if (y < n - 1) {
+        if (d[i + n] + 1 < v) v = d[i + n] + 1;
+        if (x < n - 1 && d[i + n + 1] + 1.414 < v) v = d[i + n + 1] + 1.414;
+        if (x > 0 && d[i + n - 1] + 1.414 < v) v = d[i + n - 1] + 1.414;
+      }
+      d[i] = v;
+    }
+    return d;
+  }
+  function compsOf(mask) {
+    var lab = new Uint8Array(NN * NN), comps = [], i, dx, dy;
+    for (i = 0; i < NN * NN; i++) {
+      if (!mask[i] || lab[i]) continue;
+      var stack = [i], px = [];
+      lab[i] = 1;
+      while (stack.length) {
+        var p = stack.pop(); px.push(p);
+        var x = p % NN, y = (p / NN) | 0;
+        for (dy = -1; dy <= 1; dy++) for (dx = -1; dx <= 1; dx++) {
+          if (!dx && !dy) continue;
+          var nx = x + dx, ny = y + dy;
+          if (nx < 0 || ny < 0 || nx >= NN || ny >= NN) continue;
+          var q = ny * NN + nx;
+          if (mask[q] && !lab[q]) { lab[q] = 1; stack.push(q); }
+        }
+      }
+      comps.push(px);
+    }
+    return comps;
+  }
+  function makeTpl(text, W, H, frac) {
+    var g = glyphCanvas(text, W, H, frac || 0.74);
+    var mask = maskOf(g.cv, W, H), cnt = 0, x0 = NN, y0 = NN, x1 = -1, y1 = -1, i;
+    for (i = 0; i < NN * NN; i++) {
+      if (!mask[i]) continue;
+      cnt++;
+      var x = i % NN, y = (i / NN) | 0;
+      if (x < x0) x0 = x; if (x > x1) x1 = x; if (y < y0) y0 = y; if (y > y1) y1 = y;
+    }
+    var comps = compsOf(mask);
+    var small = comps.length > 1 ? comps.filter(function (c) { return c.length <= 0.12 * cnt; }) : [];
+    return { text: text, W: W, H: H, g: g, mask: mask, dist: dtOf(mask), cnt: cnt, bb: { x0: x0, y0: y0, x1: x1, y1: y1 }, small: small };
+  }
+  function dotLike(s) {
+    if (s.length < 2) return true;
+    var a = s[0], b = s[s.length - 1];
+    return s.length < 6 && Math.abs(a[0] - b[0]) + Math.abs(a[1] - b[1]) < 2;
+  }
+
+  // Compares the child's strokes with the letter's shape. It is a shape check, not handwriting recognition.
+  function judge(tpl, strokes, level) {
+    var W = tpl.W, H = tpl.H, th = TH[level === 1 ? 1 : 2];
+    var pts = [];
+    strokes.forEach(function (s) { s.forEach(function (p) { pts.push(p); }); });
+    if (!pts.length) return { ok: false, why: 'empty' };
+    var ux0 = 1e9, uy0 = 1e9, ux1 = -1e9, uy1 = -1e9;
+    pts.forEach(function (p) { if (p[0] < ux0) ux0 = p[0]; if (p[0] > ux1) ux1 = p[0]; if (p[1] < uy0) uy0 = p[1]; if (p[1] > uy1) uy1 = p[1]; });
+    if (Math.max(ux1 - ux0, uy1 - uy0) < Math.min(W, H) * 0.12) return { ok: false, why: 'tiny' };
+    var map;
+    if (level === 1) {
+      map = function (p) { return [p[0] * NN / W, p[1] * NN / H]; };
+    } else {
+      var uw = Math.max(ux1 - ux0, 1), uh = Math.max(uy1 - uy0, 1);
+      var tw = tpl.bb.x1 - tpl.bb.x0 + 1, tht = tpl.bb.y1 - tpl.bb.y0 + 1;
+      var sx = tw / uw, sy = tht / uh;
+      if (sx > 2.2 * sy) sx = 2.2 * sy; else if (sy > 2.2 * sx) sy = 2.2 * sx;
+      var cx = (ux0 + ux1) / 2, cy = (uy0 + uy1) / 2, tcx = (tpl.bb.x0 + tpl.bb.x1) / 2, tcy = (tpl.bb.y0 + tpl.bb.y1) / 2;
+      map = function (p) { return [tcx + (p[0] - cx) * sx, tcy + (p[1] - cy) * sy]; };
+    }
+    var mapped = strokes.map(function (s) { return s.map(map); });
+    var uc = document.createElement('canvas'); uc.width = NN; uc.height = NN;
+    var c = uc.getContext('2d', { willReadFrequently: true });
+    c.lineCap = 'round'; c.lineJoin = 'round'; c.lineWidth = 3; c.strokeStyle = '#000'; c.fillStyle = '#000';
+    mapped.forEach(function (s) {
+      var i;
+      if (dotLike(s)) { c.beginPath(); c.arc(s[0][0], s[0][1], 1.8, 0, 6.3); c.fill(); return; }
+      c.beginPath(); c.moveTo(s[0][0], s[0][1]);
+      for (i = 1; i < s.length; i++) c.lineTo(s[i][0], s[i][1]);
+      c.stroke();
+    });
+    var ud = c.getImageData(0, 0, NN, NN).data, um = new Uint8Array(NN * NN), ucnt = 0, i;
+    for (i = 0; i < NN * NN; i++) { um[i] = ud[i * 4 + 3] > 50 ? 1 : 0; ucnt += um[i]; }
+    if (ucnt < 8) return { ok: false, why: 'tiny' };
+    var du = dtOf(um), covN = 0, prN = 0;
+    for (i = 0; i < NN * NN; i++) {
+      if (tpl.mask[i] && du[i] <= th.tc) covN++;
+      if (um[i] && tpl.dist[i] <= th.tp) prN++;
+    }
+    var cov = covN / tpl.cnt, pr = prN / ucnt;
+    var miss = 0;
+    tpl.small.forEach(function (comp) {
+      var hit = 0;
+      comp.forEach(function (q) { if (du[q] <= th.tc * 1.5) hit++; });
+      if (hit / comp.length < 0.35) miss++;
+    });
+    var stray = 0;
+    mapped.forEach(function (s) {
+      var good = 0;
+      s.forEach(function (p) {
+        var x = Math.max(0, Math.min(NN - 1, Math.round(p[0]))), y = Math.max(0, Math.min(NN - 1, Math.round(p[1])));
+        if (tpl.dist[y * NN + x] <= th.tp * 1.4) good++;
+      });
+      if (good / s.length < 0.5) stray++;
+    });
+    var why = null;
+    if (miss) why = 'dots'; else if (cov < th.cv) why = 'cov'; else if (pr < th.pr) why = 'prec'; else if (stray) why = 'stray';
+    return { ok: !why, why: why, cov: cov, prec: pr, miss: miss, stray: stray };
+  }
+
+  /* drawing pad: an outline canvas behind, the child's strokes in front */
+  function makePad(size, hh) {
+    var HH = hh || size;
+    var dpr = Math.min(window.devicePixelRatio || 1, 2);
+    var brush = Math.max(8, Math.round(size * 0.045));
+    var wrap = el('div', 'pad'); wrap.style.width = size + 'px'; wrap.style.height = HH + 'px';
+    var cvo = el('canvas', 'pc'), cv = el('canvas', 'pc');
+    [cvo, cv].forEach(function (k) { k.width = Math.round(size * dpr); k.height = Math.round(HH * dpr); wrap.appendChild(k); });
+    var o = cvo.getContext('2d'), c = cv.getContext('2d');
+    o.setTransform(dpr, 0, 0, dpr, 0, 0); c.setTransform(dpr, 0, 0, dpr, 0, 0);
+    var pad = { wrap: wrap, W: size, H: HH, strokes: [], locked: false, cur: null };
+    pad.redraw = function () {
+      c.clearRect(0, 0, size, HH);
+      c.lineCap = 'round'; c.lineJoin = 'round'; c.lineWidth = brush; c.strokeStyle = '#1668D9'; c.fillStyle = '#1668D9';
+      pad.strokes.forEach(function (s) {
+        var i;
+        if (dotLike(s)) { c.beginPath(); c.arc(s[0][0], s[0][1], brush / 2, 0, 6.3); c.fill(); return; }
+        c.beginPath(); c.moveTo(s[0][0], s[0][1]);
+        for (i = 1; i < s.length; i++) c.lineTo(s[i][0], s[i][1]);
+        c.stroke();
+      });
+    };
+    pad.clear = function () { pad.strokes = []; pad.cur = null; pad.redraw(); };
+    pad.outline = function (tpl) {
+      o.clearRect(0, 0, size, HH);
+      if (!tpl) return;
+      var g = tpl.g;
+      o.save();
+      o.font = g.size + 'px ' + STACK; o.textAlign = 'center'; o.textBaseline = 'alphabetic';
+      try { o.direction = 'rtl'; } catch (e) { /* ignore */ }
+      o.fillStyle = 'rgba(22,104,217,0.10)';
+      o.fillText(tpl.text, size / 2 + g.ox, HH * 0.6 + g.oy);
+      o.strokeStyle = 'rgba(27,42,74,0.8)'; o.lineWidth = 2; o.setLineDash([7, 5]);
+      o.strokeText(tpl.text, size / 2 + g.ox, HH * 0.6 + g.oy);
+      o.restore();
+    };
+    function pt(e) { var r = cv.getBoundingClientRect(); return [(e.clientX - r.left) * size / r.width, (e.clientY - r.top) * HH / r.height]; }
+    cv.addEventListener('pointerdown', function (e) {
+      if (pad.locked) return;
+      e.preventDefault();
+      try { cv.setPointerCapture(e.pointerId); } catch (err) { /* ignore */ }
+      pad.cur = [pt(e)]; pad.strokes.push(pad.cur); pad.redraw();
+    });
+    cv.addEventListener('pointermove', function (e) {
+      if (!pad.cur) return;
+      var p = pt(e), l = pad.cur[pad.cur.length - 1];
+      if (Math.abs(p[0] - l[0]) + Math.abs(p[1] - l[1]) < 1.5) return;
+      pad.cur.push(p); pad.redraw();
+    });
+    function up() {
+      if (!pad.cur) return;
+      if (pad.cur.length === 1) pad.cur.push([pad.cur[0][0], pad.cur[0][1]]);
+      pad.cur = null; pad.redraw(); updateBtns();
+    }
+    cv.addEventListener('pointerup', up);
+    cv.addEventListener('pointercancel', up);
+    return pad;
+  }
+
+  function practiceView(on) {
+    $('#book').hidden = on;
+    document.querySelector('.pager').hidden = on;
+    PRAC.hidden = !on;
+    if (!on) { P = null; $('#speak').hidden = false; $('#win').hidden = true; }
+  }
+  function practiceIdle() {
+    P = null;
+    $('#win').hidden = true;
+    $('#lv').textContent = ''; $('#sndrow').textContent = ''; $('#rec').textContent = ''; setFb('', '');
+    $('#pmt').textContent = 'മുകളിലെ അക്ഷരങ്ങളിൽ ഒന്ന് തൊടൂ.';
+    $('#padarea').textContent = '';
+    $('#pageNo').textContent = '';
+    $('#speak').hidden = true;
+    ['clr', 'chk', 'help', 'skip'].forEach(function (id) { $('#' + id).hidden = true; });
+  }
+  function setFb(kind, msg) { var f = $('#fb'); f.className = 'fb' + (kind ? ' ' + kind : ''); f.textContent = msg || ''; }
+
+  function pickVariant() {
+    var ids = P.L[0] === 'ا' ? SIMPLE_ALIF : SIMPLE;
+    if (!P.bag.length) {
+      P.bag = shuffle(ids);
+      if (P.bag.length > 1 && P.bag[P.bag.length - 1] === P.last) { var t = P.bag[0]; P.bag[0] = P.bag[P.bag.length - 1]; P.bag[P.bag.length - 1] = t; }
+    }
+    P.last = P.bag.pop();
+    return P.last;
+  }
+
+  function startPractice(c) {
+    var L = letterOf(c);
+    $('#win').hidden = true;
+    $('#speak').hidden = false;
+    ['clr', 'chk'].forEach(function (id) { $('#' + id).hidden = false; });
+    P = { L: L, level: 1, max: 1, ok: 0, streak: 0, tries: 0, bag: [], last: null, rec: [], round: null, words: null, wi: 0, pad: null, boxes: null, busy: false, speakText: '', size: 260 };
+    $('#padarea').textContent = '';
+    var mine = P;
+    fontsReady().then(function () { if (P === mine) beginLevel(1); });
+  }
+
+  function renderHead() {
+    var lv = $('#lv'); lv.textContent = '';
+    for (var n = 1; n <= 4; n++) {
+      (function (n) {
+        var b = el('button', 'pill', String(n)); b.type = 'button';
+        b.setAttribute('aria-label', 'ലെവൽ ' + n);
+        if (n === P.level) b.setAttribute('aria-current', 'true');
+        b.disabled = n > P.max;
+        b.addEventListener('click', function () { if (n <= P.max && n !== P.level && !P.busy) beginLevel(n); });
+        lv.appendChild(b);
+      })(n);
+    }
+    var need = P.level >= 3 ? 3 : 5, got = P.level === 1 ? P.ok : (P.level === 2 ? P.streak : P.wi);
+    var st = el('span', 'stars'); st.setAttribute('aria-label', got + ' / ' + need);
+    for (var i = 0; i < need; i++) st.appendChild(el('i', i < got ? 'on' : ''));
+    lv.appendChild(st);
+    $('#pageNo').textContent = 'ലെവൽ ' + P.level + ' · ' + LV[P.level].name;
+    $('#pmt').textContent = LV[P.level].pmt;
+  }
+  function renderRec() {
+    var r = $('#rec'); r.textContent = '';
+    P.rec.slice(-10).forEach(function (x) {
+      var k = el('span', 'rc ' + (x.ok ? 'ok' : 'no'), (x.ok ? '' : '✗ ') + x.t);
+      k.setAttribute('lang', 'ar');
+      r.appendChild(k);
+    });
+  }
+  function updateBtns() {
+    if (!P) return;
+    var has = P.level === 3 ? (P.boxes || []).some(function (b) { return !b.done && b.strokes.length > 0; }) : !!(P.pad && P.pad.strokes.length > 0);
+    $('#chk').disabled = !has || !!P.busy;
+    $('#help').hidden = P.level === 1;
+    $('#skip').hidden = !(P.level < 3 && P.round && P.round.fails >= 3);
+  }
+
+  function beginLevel(n) {
+    P.level = n; if (n > P.max) P.max = n;
+    P.ok = 0; P.streak = 0; P.rec = []; P.wi = 0; P.round = null; P.busy = false;
+    $('#padarea').textContent = ''; $('#sndrow').textContent = '';
+    setFb('', '');
+    if (n === 3) { startWords(); }
+    else if (n === 4) { startJoined(); }
+    else {
+      var w = Math.floor(PIN_.clientWidth) - 56;
+      P.size = Math.max(190, Math.min(340, w, PRAC.clientHeight - 330));
+      P.pad = makePad(P.size);
+      $('#padarea').appendChild(P.pad.wrap);
+      newRound();
+    }
+    renderHead(); renderRec(); updateBtns();
+  }
+
+  function newRound() {
+    var v = pickVariant(), text = arabicFor(P.L, v, true), sound = soundFor(P.L, v, true), bare = text;
+    P.round = { v: v, text: text, sound: sound, fails: 0, tpl: makeTpl(bare, P.size, P.size, 0.74), bare: bare };
+    P.pad.clear(); P.pad.locked = false; P.pad.wrap.className = 'pad';
+    P.pad.outline(P.level === 1 ? P.round.tpl : null);
+    var row = $('#sndrow'); row.textContent = '';
+    row.appendChild(el('span', 'sndml', sound));
+    row.appendChild(el('span', 'sndlab', 'ഈ ശബ്ദം'));
+    setFb('', '');
+    P.speakText = text; speak(text);
+    updateBtns();
+  }
+
+  function levelUpTo(n) {
+    P.busy = true;
+    setFb('ok', 'വളരെ നന്നായി! ലെവൽ ' + n + ' തുടങ്ങാം.');
+    var mine = P;
+    setTimeout(function () { if (P === mine) { P.busy = false; beginLevel(n); } }, 1400);
+  }
+
+  function check() {
+    if (!P || P.busy) return;
+    if (P.level === 3) { checkWord(); return; }
+    if (P.level === 4) { checkJoined(); return; }
+    var r = P.round, pad = P.pad;
+    if (!pad.strokes.length) { setFb('no', WHY.empty); return; }
+    var res = judge(r.tpl, pad.strokes, P.level);
+    P.tries++;
+    var mine = P;
+    P.busy = true;
+    if (res.ok) {
+      pad.locked = true; pad.wrap.className = 'pad ok';
+      P.rec.push({ ok: true, t: r.text });
+      P.ok++;
+      if (P.level === 2) P.streak++;
+      setFb('ok', 'ശരിയായി!');
+      renderHead(); renderRec();
+      setTimeout(function () {
+        if (P !== mine) return;
+        P.busy = false;
+        if (P.level === 1 && P.ok >= 5) levelUpTo(2);
+        else if (P.level === 2 && P.streak >= 5) levelUpTo(3);
+        else { newRound(); renderHead(); }
+      }, 900);
+    } else {
+      r.fails++;
+      P.rec.push({ ok: false, t: r.text });
+      if (P.level === 2) P.streak = 0;
+      pad.wrap.className = 'pad bad';
+      setFb('no', WHY[res.why] || 'ഒന്നുകൂടി ശ്രമിക്കൂ.');
+      renderHead(); renderRec();
+      if (P.level === 2 && r.fails >= 2) pad.outline(r.tpl);
+      setTimeout(function () {
+        if (P !== mine) return;
+        P.busy = false;
+        if (P.pad === pad) { pad.clear(); pad.wrap.className = 'pad'; }
+        updateBtns();
+      }, 900);
+    }
+    updateBtns();
+  }
+
+  /* level 3: words of three or four letters, one box per letter */
+  function formsOf(letters) {
+    return letters.map(function (c, i) {
+      var prevJ = i > 0 && NONJOIN.indexOf(letters[i - 1]) < 0;
+      var nextJ = i < letters.length - 1 && NONJOIN.indexOf(c) < 0;
+      if (prevJ && nextJ) return ZWJ + c + ZWJ;
+      if (prevJ) return ZWJ + c;
+      if (nextJ) return c + ZWJ;
+      return c;
+    });
+  }
+  function startWords() {
+    var pool = WORDS.filter(function (w) {
+      if (/[ةىءؤئّٓ]/.test(w[0])) return false;
+      var n = baseLetters(w[0]).length;
+      return n >= 3 && n <= 4;
+    });
+    var withL = shuffle(pool.filter(function (w) { return baseLetters(w[0]).indexOf(P.L[0]) >= 0; }));
+    var rest = shuffle(pool.filter(function (w) { return baseLetters(w[0]).indexOf(P.L[0]) < 0; }));
+    P.words = withL.concat(rest).slice(0, 3);
+    P.wi = 0;
+    buildWord();
+  }
+  function buildWord() {
+    var w = P.words[P.wi];
+    var letters = baseLetters(w[0]), forms = formsOf(letters);
+    var area = $('#padarea'); area.textContent = '';
+    $('#sndrow').textContent = '';
+    var model = el('div', 'mdl', w[0]); model.setAttribute('lang', 'ar'); model.setAttribute('dir', 'rtl');
+    area.appendChild(model);
+    area.appendChild(el('div', 'mmeta', w[1] + ' · ' + w[2]));
+    var cols = letters.length === 4 ? 2 : 3, gap = 8;
+    var total = Math.floor(PIN_.clientWidth) - 56;
+    var bw = Math.max(90, Math.min(150, Math.floor((total - gap * (cols - 1)) / cols)));
+    var grid = el('div', 'boxes'); grid.style.gridTemplateColumns = 'repeat(' + cols + ', ' + bw + 'px)';
+    P.boxes = letters.map(function (l, i) {
+      var pad = makePad(bw); pad.fails = 0; pad.done = false; pad.tpl = makeTpl(l, bw, bw, 0.7); pad.rivals = rivalsOf(l, pad.tpl, bw, bw, 0.7);
+      var cell = el('div', 'cell'); cell.appendChild(pad.wrap); cell.appendChild(el('span', 'ix', String(i + 1)));
+      grid.appendChild(cell);
+      return pad;
+    });
+    area.appendChild(grid);
+    P.speakText = w[0]; speak(w[0]);
+    renderHead(); updateBtns();
+  }
+  function checkWord() {
+    var mine = P, allOk = true, wrongForm = false;
+    P.boxes.forEach(function (b) {
+      if (b.done) return;
+      if (!b.strokes.length) { allOk = false; b.wrap.className = 'pad bad'; setTimeout(function () { if (!b.done) b.wrap.className = 'pad'; }, 900); return; }
+      var res = judgeForm(b.tpl, b.rivals, b.strokes);
+      if (res.why === 'form') wrongForm = true;
+      if (res.ok) { b.done = true; b.locked = true; b.wrap.className = 'pad ok'; }
+      else {
+        allOk = false; b.fails++; b.wrap.className = 'pad bad';
+        setTimeout(function () { if (!b.done && P === mine) { b.clear(); b.wrap.className = 'pad'; updateBtns(); } }, 900);
+        if (b.fails >= 2) b.outline(b.tpl);
+      }
+    });
+    updateBtns();
+    if (wrongForm) { failLevel('അക്ഷരം തനിച്ചുള്ള (ഒറ്റ) രൂപത്തിലല്ല എഴുതിയത്. ഈ ലെവൽ വീണ്ടും തുടങ്ങാം.'); return; }
+    if (!allOk) { setFb('no', 'ചുവപ്പ് പെട്ടികളിൽ ഒന്നുകൂടി എഴുതൂ.'); return; }
+    P.busy = true;
+    P.rec.push({ ok: true, t: P.words[P.wi][0] });
+    P.wi++;
+    setFb('ok', 'ശരിയായി!');
+    renderHead(); renderRec();
+    setTimeout(function () {
+      if (P !== mine) return;
+      P.busy = false;
+      if (P.wi >= 3) levelUpTo(4); else { setFb('', ''); buildWord(); }
+    }, 1100);
+  }
+
+  /* rule: a letter written alone must be its isolated form; joined writing must use the joining forms */
+  function rivalsOf(c, tpl, W, H, frac) {
+    var out = [];
+    if (NONJOIN.indexOf(c) >= 0) return out;
+    [ZWJ + c, ZWJ + c + ZWJ, c + ZWJ].forEach(function (t) {
+      var r = makeTpl(t, W, H, frac), both = 0, either = 0, i;
+      for (i = 0; i < NN * NN; i++) { if (r.mask[i] && tpl.mask[i]) both++; if (r.mask[i] || tpl.mask[i]) either++; }
+      if (either && both / either < 0.8) out.push(r);
+    });
+    return out;
+  }
+  function judgeForm(tpl, rivals, strokes) {
+    var res = judge(tpl, strokes, 2);
+    if (!res.ok || !rivals || !rivals.length) return res;
+    var mine = res.cov + res.prec;
+    for (var i = 0; i < rivals.length; i++) {
+      var rr = judge(rivals[i], strokes, 2);
+      if (rr.cov !== undefined && rr.cov + rr.prec > mine + 0.1) return { ok: false, why: 'form', cov: res.cov, prec: res.prec };
+    }
+    return res;
+  }
+  function failLevel(msg) {
+    var mine = P;
+    P.busy = true; P.streak = 0;
+    P.rec.push({ ok: false, t: (P.words && P.words[P.wi] ? P.words[P.wi][0] : '') });
+    setFb('no', msg); renderRec();
+    setTimeout(function () { if (P === mine) { P.busy = false; beginLevel(P.level); } }, 2600);
+  }
+
+  /* level 4: write the whole word joined; the letters are shown with + between them */
+  function startJoined() {
+    var pool = WORDS.filter(function (w) {
+      if (/[ةىءؤئّٓ]/.test(w[0])) return false;
+      var n = baseLetters(w[0]).length;
+      return n >= 3 && n <= 5;
+    });
+    var withL = shuffle(pool.filter(function (w) { return baseLetters(w[0]).indexOf(P.L[0]) >= 0; }));
+    var rest = shuffle(pool.filter(function (w) { return baseLetters(w[0]).indexOf(P.L[0]) < 0; }));
+    P.words = withL.concat(rest).slice(0, 3);
+    P.wi = 0;
+    buildJoined();
+  }
+  function buildJoined() {
+    var w = P.words[P.wi], letters = baseLetters(w[0]);
+    var area = $('#padarea'); area.textContent = '';
+    $('#sndrow').textContent = '';
+    var plus = el('div', 'plusrow'); plus.setAttribute('lang', 'ar'); plus.setAttribute('dir', 'rtl');
+    letters.forEach(function (l, i) {
+      if (i) plus.appendChild(el('span', 'pl', '+'));
+      plus.appendChild(el('span', 'lt', l));
+    });
+    area.appendChild(plus);
+    area.appendChild(el('div', 'mmeta', w[1] + ' · ' + w[2]));
+    var total = Math.floor(PIN_.clientWidth) - 56, pw = Math.max(240, Math.min(360, total)), ph = Math.round(pw * 0.52);
+    var pad = makePad(pw, ph);
+    P.pad = pad;
+    P.round = { fails: 0, tpl: makeTpl(letters.join(''), pw, ph, 0.8), rival: makeTpl(letters.join(' '), pw, ph, 0.8) };
+    area.appendChild(pad.wrap);
+    P.speakText = w[0]; speak(w[0]);
+    renderHead(); updateBtns();
+  }
+  function checkJoined() {
+    var mine = P, pad = P.pad, r = P.round;
+    if (!pad.strokes.length) { setFb('no', WHY.empty); return; }
+    var res = judgeForm(r.tpl, [r.rival], pad.strokes);
+    if (res.why === 'form') { pad.wrap.className = 'pad bad'; failLevel('അക്ഷരങ്ങൾ ഒറ്റ രൂപത്തിലാണ് എഴുതിയത്, ചേർത്തെഴുതേണ്ട രൂപത്തിലല്ല. ഈ ലെവൽ വീണ്ടും തുടങ്ങാം.'); return; }
+    P.busy = true;
+    if (res.ok) {
+      pad.locked = true; pad.wrap.className = 'pad ok';
+      P.rec.push({ ok: true, t: P.words[P.wi][0] }); P.wi++;
+      setFb('ok', 'ശരിയായി!'); renderHead(); renderRec();
+      setTimeout(function () { if (P !== mine) return; P.busy = false; if (P.wi >= 3) finishAll(); else { setFb('', ''); buildJoined(); } }, 1100);
+    } else {
+      r.fails++; pad.wrap.className = 'pad bad';
+      P.rec.push({ ok: false, t: P.words[P.wi][0] });
+      setFb('no', WHY[res.why] || 'ഒന്നുകൂടി ശ്രമിക്കൂ.'); renderRec();
+      if (r.fails >= 2) pad.outline(r.tpl);
+      setTimeout(function () { if (P !== mine) return; P.busy = false; if (P.pad === pad) { pad.clear(); pad.wrap.className = 'pad'; } updateBtns(); }, 900);
+    }
+    updateBtns();
+  }
+
+  function finishAll() {
+    var c = P.L[0];
+    done[c] = 1; saveDone();
+    Array.prototype.forEach.call(strip.children, function (b) { if (b.getAttribute('data-c') === c) b.setAttribute('data-done', '1'); });
+    $('#winLetter').textContent = c + ' — ' + P.L[2];
+    $('#win').hidden = false;
+    speak('مَبْرُوك');
+  }
+
+  $('#clr').addEventListener('click', function () {
+    if (!P || P.busy) return;
+    if (P.level === 3) P.boxes.forEach(function (b) { if (!b.done) { b.clear(); b.wrap.className = 'pad'; } });
+    else { P.pad.clear(); P.pad.wrap.className = 'pad'; }
+    setFb('', ''); updateBtns();
+  });
+  $('#chk').addEventListener('click', check);
+  $('#help').addEventListener('click', function () {
+    if (!P || P.busy) return;
+    if ((P.level === 2 || P.level === 4) && P.round) {
+      P.pad.outline(P.round.tpl);
+      var mine = P, pad = P.pad;
+      setTimeout(function () { if (P === mine && P.pad === pad && P.round.fails < 2) pad.outline(null); }, 2500);
+    } else if (P.level === 3) {
+      P.boxes.forEach(function (b) { if (!b.done) b.outline(b.tpl); });
+    }
+  });
+  $('#skip').addEventListener('click', function () { if (P && !P.busy && P.level < 3) { newRound(); renderHead(); } });
+  $('#winAgain').addEventListener('click', function () { $('#win').hidden = true; startPractice(P.L[0]); });
+  $('#winNext').addEventListener('click', function () {
+    var i = 0;
+    for (; i < LET.length; i++) if (LET[i][0] === P.L[0]) break;
+    S.sel = [LET[(i + 1) % LET.length][0]];
+    refresh();
+  });
+  $('#winBook').addEventListener('click', function () { S.mode = 1; S.sel = S.sel.slice(0, 1); refresh(); });
+  window.__ar = { rivalsOf: rivalsOf, judgeForm: judgeForm, WORDS: WORDS, baseLetters: baseLetters, getP: function () { return P; }, makeTpl: makeTpl, judge: judge, formsOf: formsOf, arabicFor: arabicFor, letterOf: letterOf, NN: NN };
+
+  /* ---------- start ---------- */
+  var lastW = window.innerWidth;
+  window.addEventListener('resize', function () {
+    if (S.mode === 3) { if (Math.abs(window.innerWidth - lastW) > 30) { lastW = window.innerWidth; refresh(); } return; }
+    lastW = window.innerWidth;
+    if (!anim) paint();
+  });
+  refresh();
+})();
 </script>
-</body>
-</html>
+
+<script>
+if ('serviceWorker' in navigator) { window.addEventListener('load', function () { navigator.serviceWorker.register('sw.js').catch(function () {}); }); }
+</script>
+</body></html>
