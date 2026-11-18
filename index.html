@@ -5,6 +5,11 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#07181c">
 <meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="CV അറബി">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="icon-192.png">
 <title>CV – അറബി പഠന ഗെയിം</title>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Naskh+Arabic:wght@500;700&family=Noto+Sans+Malayalam:wght@400;600;800&display=swap" rel="stylesheet">
 <style>
@@ -115,6 +120,7 @@ input:focus{outline:0;border-color:var(--gold)}
   </div>
   <button class="btn" id="startNormal">▶ സാധാരണ കളി (കോഡ് വേണ്ട)</button>
   <button class="btn ghost" id="cont" hidden></button>
+  <button class="btn" id="install" hidden>📲 ഫോണിൽ ഇൻസ്റ്റാൾ ചെയ്യുക</button>
   <div id="lvgrid" class="lvgrid"></div>
 </section>
 
@@ -279,9 +285,17 @@ async function dbGet(code){
 }
 async function dbPut(code,en){
   const c=ck(code),k=en.name.toLowerCase().replace(/[.#$\[\]\/]/g,'_');
-  if(CFG.DB_URL){try{await fetchT(`${CFG.DB_URL}/comps/${c}/${encodeURIComponent(k)}.json`,{method:'PUT',body:JSON.stringify(en)});return}catch(e){}}
-  const a=(await dbGet(code)).filter(x=>x.name.toLowerCase()!==en.name.toLowerCase());a.push(en);
-  try{localStorage.setItem('cvb_'+c,JSON.stringify(a))}catch(e){}
+  const better=(n,o)=>!o||n.points>o.points||(n.points===o.points&&n.time<=o.time);
+  if(CFG.DB_URL){
+    const u=`${CFG.DB_URL}/comps/${c}/${encodeURIComponent(k)}.json`;
+    try{
+      let o=null;try{o=await (await fetchT(u)).json()}catch(e){}
+      if(!better(en,o))return;          // നേടിയ ഉയർന്ന പോയിന്റ് ഒരിക്കലും കുറയില്ല
+      await fetchT(u,{method:'PUT',body:JSON.stringify(en)});return}catch(e){}}
+  const a=await dbGet(code),o=a.find(x=>x.name.toLowerCase()===en.name.toLowerCase());
+  if(!better(en,o))return;
+  const b=a.filter(x=>x.name.toLowerCase()!==en.name.toLowerCase());b.push(en);
+  try{localStorage.setItem('cvb_'+c,JSON.stringify(b))}catch(e){}
 }
 const sortB=a=>a.sort((x,y)=>y.points-x.points||x.time-y.time);
 async function pushBoard(final){
@@ -468,13 +482,22 @@ try{document.fonts.addEventListener('loadingdone',()=>{for(const k in _tc)delete
 // ഒരു അക്ഷരം ഓരോ രൂപത്തിൽ: ഒറ്റയ്ക്ക് / തുടക്കം / നടുവ് / അവസാനം
 const FORMS={iso:[ZN,ZN],ini:[ZN,ZW],med:[ZW,ZW],fin:[ZW,ZN]};
 function formStr(parts,i,f){return parts.map((x,j)=>j===i?FORMS[f][0]+x+FORMS[f][1]:x).join('')}
-// പല "സ്ഥാനരൂപ" ഉത്തരങ്ങളിൽ ഏറ്റവും ചേരുന്നത് ഏത് എന്ന് മത്സരിപ്പിച്ച് നോക്കുന്നു (ശരിയായത് ജയിക്കണം)
-function compete(u,good,others){
-  const sg=shapeScore(u,good);let best=0,bk=null;
-  others.forEach(([k,t])=>{const s=shapeScore(u,t);if(s>best){best=s;bk=k}});
-  return{sg,best,bk};
+// രൂപങ്ങൾ തമ്മിൽ വ്യത്യാസമുള്ള ഭാഗം മാത്രം നോക്കുന്നു: കുട്ടി എഴുതിയത് ശരിയായ രൂപത്തിന്റെ ഭാഗത്താണോ, മറ്റേ (തെറ്റായ) രൂപത്തിന്റെ ഭാഗത്താണോ കൂടുതൽ?
+function diffScore(u,good,t,r){
+  const dg=dil(good.g,r),dt=dil(t.g,r),du=dil(u.g,r);let go=0,vo=0,gc=0,vc=0;
+  for(let i=0;i<GS*GS;i++){
+    if(good.g[i]&&!dt[i]){go++;if(du[i])gc++}
+    if(t.g[i]&&!dg[i]){vo++;if(du[i])vc++}
+  }
+  if(go<10||vo<10)return null;
+  return{a:gc/go,b:vc/vo};
 }
-function dedupe(good,list){return list.filter(([k,t])=>shapeScore(t,good)<.9)}
+function compete(u,good,others,th=.25){
+  const sg=shapeScore(u,good);let worst=-9,bk=null;
+  others.forEach(([k,t])=>{const d=diffScore(u,good,t,1);if(d&&d.b>.45&&d.b-d.a>worst){worst=d.b-d.a;bk=k}});
+  return{sg,bk:worst>th?bk:null};
+}
+function dedupe(good,list){return list.filter(([k,t])=>shapeScore(t,good)<.92)}
 
 // ലെവൽ 10: ഓരോ കള്ളിയിലും ഒറ്റയ്ക്കുള്ള രൂപം
 function checkIsolated(u,W,H,cells){
@@ -485,9 +508,9 @@ function checkIsolated(u,W,H,cells){
     const base=cells[i];
     const iso=tmplInfo(base);
     const others=dedupe(iso,['ini','med','fin'].map(f=>[f,tmplInfo(f==='ini'?base+ZW:f==='med'?ZW+base+ZW:ZW+base)]));
-    const r=compete(gu,iso,others);
-    if(r.sg<.4)return{ok:false,msg:'ഒറ്റയ്ക്കുള്ള അക്ഷരരൂപം പൊരുത്തപ്പെടുന്നില്ല'};
-    if(r.bk&&r.best>r.sg+.02)return{ok:false,msg:'ഇത് വാക്കിൽ ചേർന്നുവരുന്ന രൂപമാണ്; ഒറ്റയ്ക്ക് എഴുതുമ്പോഴുള്ള (ചേർക്കാത്ത) രൂപത്തിൽ എഴുതുക'};
+    const r=compete(gu,iso,others,.4);
+    if(r.sg<.25)return{ok:false,msg:'ഒറ്റയ്ക്കുള്ള അക്ഷരരൂപം പൊരുത്തപ്പെടുന്നില്ല'};
+    if(r.bk)return{ok:false,msg:'ഇത് വാക്കിൽ ചേർന്നുവരുന്ന രൂപമാണ്; ഒറ്റയ്ക്ക് എഴുതുമ്പോഴുള്ള (ചേർക്കാത്ത) രൂപത്തിൽ എഴുതുക'};
   }
   return{ok:true,msg:''};
 }
@@ -506,8 +529,8 @@ function checkJoined(u,W,H,cl,groups){
     others.push(['all',tmplInfo(parts.join(ZN))]);
     others=dedupe(good,others);
     const r=compete(userInfo,good,others);
-    if(r.sg<.4)return{ok:false,msg:'അക്ഷരങ്ങളുടെ രൂപം പൊരുത്തപ്പെടുന്നില്ല'};
-    if(r.bk&&r.best>r.sg+.02){
+    if(r.sg<.3)return{ok:false,msg:'അക്ഷരങ്ങളുടെ രൂപം പൊരുത്തപ്പെടുന്നില്ല'};
+    if(r.bk){
       const m=/^(iso|ini|med|fin)(\d+)?$/.exec(r.bk);
       return{ok:false,msg:m&&m[2]!==undefined?`"${stripH(parts[+m[2]])[0]}" വാക്കിൽ ഈ സ്ഥാനത്ത് വരുമ്പോൾ അതിന്റെ രൂപം മാറും. ചേർന്നുവരുന്ന രൂപത്തിൽ എഴുതുക`:'അക്ഷരരൂപങ്ങൾ ചേർക്കുമ്പോൾ മാറും, ശരിയായ രൂപത്തിൽ ചേർത്ത് എഴുതുക'};
     }
@@ -541,14 +564,22 @@ R.draw=(q,A)=>{
   dc.onpointermove=e=>{if(!dr)return;const[x,y]=pos(e);d.strokeStyle='#f5c542';d.lineWidth=10;d.lineCap='round';d.beginPath();d.moveTo(lx,ly);d.lineTo(x,y);d.stroke();lx=x;ly=y};
   dc.onpointerup=dc.onpointercancel=()=>dr=false;
   const acts=$('#acts');
-  const bc=el('button','btn');bc.textContent='🗑 മായ്ക്കുക';bc.onclick=()=>{if(G.lock)return;d.clearRect(0,0,W,H);any=false};
+  const bc=el('button','btn');bc.textContent='🗑 മായ്ക്കുക';bc.onclick=()=>{if(G.lock)return;d.clearRect(0,0,W,H);any=false;wrap.classList.remove('bad','ok');ghost();const so=$('#selfok');if(so)so.remove()};
   const bk=el('button','btn gold');bk.textContent='✔ പരിശോധിക്കുക';
   bk.onclick=()=>{
     if(G.lock)return;if(!any){toast('ആദ്യം എഴുതുക');return}G.lock=1;
     const u=d.getImageData(0,0,W,H).data;let ok=true,why='';
     const r=q.groups?checkJoined(u,W,H,q.cl,q.groups):checkIsolated(u,W,H,q.cells);ok=r.ok;why=r.msg;
     if(!ok&&why)toast(why);
-    wrap.classList.add(ok?'ok':'bad');if(!ok)ghost('#22c55e',.6);finishQ(ok);
+    wrap.classList.add(ok?'ok':'bad');if(!ok)ghost('#22c55e',.6);
+    // മത്സരമല്ലാത്ത കളിയിൽ: തെറ്റ് വന്നാൽ വീണ്ടും ശ്രമിക്കാം, അല്ലെങ്കിൽ "ശരിയാണ്" എന്ന് ഉറപ്പിക്കാം
+    if(!ok&&(S.mode!=='comp'||G.practice)){
+      G.lock=0;
+      if(!$('#selfok')){const so=el('button','btn');so.id='selfok';so.textContent='✔ ഞാൻ ശരിയായി എഴുതി';
+        so.onclick=()=>{if(G.lock)return;G.lock=1;wrap.classList.remove('bad');wrap.classList.add('ok');so.remove();finishQ(true)};acts.appendChild(so)}
+      return;
+    }
+    finishQ(ok);
   };
   acts.append(bc,bk);
 };
@@ -633,6 +664,13 @@ $('#wa').onclick=async()=>{
 /* ================= INIT ================= */
 try{const l=JSON.parse(localStorage.getItem('cv_last')||'null');if(l){S=l;if(l.mode==='comp'){$('#code').value=l.code;$('#pname').value=l.name}}}catch(e){}
 loadP();renderHome();
+
+/* ================= INSTALL (PWA) ================= */
+let deferredInstall=null;
+window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();deferredInstall=e;$('#install').hidden=false});
+$('#install').onclick=async()=>{if(!deferredInstall)return;deferredInstall.prompt();try{await deferredInstall.userChoice}catch(e){}deferredInstall=null;$('#install').hidden=true};
+window.addEventListener('appinstalled',()=>{$('#install').hidden=true});
+if('serviceWorker' in navigator)window.addEventListener('load',()=>{navigator.serviceWorker.register('sw.js').catch(()=>{})});
 </script>
 </body>
 </html>
